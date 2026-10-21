@@ -41,8 +41,17 @@ The following screenshots reflect the actual deployed application running on Ver
 ### Championship // Constructors
 ![F1 // CONTROL Constructors](docs/screenshots/constructors.png)
 
+### Season 2026 // Calendar
+![F1 // CONTROL Calendar](docs/screenshots/calendar.png)
+
 ### Technical Circuit Telemetry // Silverstone
 ![F1 // CONTROL Circuit Specification](docs/screenshots/circuits.png)
+
+### Official Classification // Race Results (Singapore GP)
+![F1 // CONTROL Results](docs/screenshots/results.png)
+
+### Contender Telemetry Analytics // Speed Traces
+![F1 // CONTROL Analytics](docs/screenshots/analytics.png)
 
 ### Race Control & Telemetry Archive // Singapore GP
 ![F1 // CONTROL Live Timing](docs/screenshots/live-timing.png)
