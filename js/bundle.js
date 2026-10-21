@@ -3267,32 +3267,83 @@
     return 'independent';
   }
 
-  function getTeamIconSvg(teamName) {
-    const t = (teamName || '').toLowerCase();
-    if (t.includes('mclaren')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="McLaren Formula 1 Team"><path d="M4.5 17.5C11 7 19.5 6 20.5 6c-2 4-7.5 8.5-16 11.5z" fill="#f47600"/></svg>`;
-    } else if (t.includes('ferrari')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Scuderia Ferrari"><path d="M12 2l-7 3v6.5c0 5 3.5 8.5 7 10.5 3.5-2 7-5.5 7-10.5V5l-7-3z" fill="#fadb14"/><path d="M12 4.5l-5 2.2v4.8c0 3.8 2.5 6.5 5 8 2.5-1.5 5-4.2 5-8V6.7l-5-2.2z" fill="#ed1131"/><circle cx="12" cy="11.5" r="2.2" fill="#fff"/></svg>`;
-    } else if (t.includes('mercedes')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Mercedes-AMG PETRONAS"><circle cx="12" cy="12" r="9.5" stroke="#00d7b6" stroke-width="1.8" fill="none"/><path d="M12 2.5v9.5m0 0l-8.2 4.8m8.2-4.8l8.2 4.8" stroke="#00d7b6" stroke-width="1.8"/></svg>`;
-    } else if (t.includes('red bull')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Red Bull Racing"><circle cx="12" cy="12" r="10" fill="#1b2444"/><circle cx="12" cy="12" r="4.5" fill="#fadb14"/><path d="M7 14c2-3 5-3 5-3s3 0 5 3c-2 1-8 1-10 0z" fill="#e10600"/></svg>`;
-    } else if (t.includes('aston')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Aston Martin F1 Team"><path d="M2 13c4-3 16-3 20 0-4-3-16-3-20 0z" fill="#229971"/><path d="M5 14.5c4-2 10-2 14 0-4-2-10-2-14 0z" fill="#cedc00"/><rect x="10.5" y="11" width="3" height="3" fill="#229971"/></svg>`;
-    } else if (t.includes('alpine')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="BWT Alpine F1 Team"><path d="M12 3L4 20h3.5l1.8-4h5.4l1.8 4H20L12 3zm0 5.2l1.9 4.3h-3.8L12 8.2z" fill="#00a1e8"/></svg>`;
-    } else if (t.includes('williams')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Williams Racing"><path d="M4 4h3l3.2 12.5L13.5 7h2l3.3 9.5L22 4h-3l-2.2 7.5L14.5 4h-3L9.2 11.5 7 4H4z" fill="#1868db"/></svg>`;
-    } else if (t.includes('racing bulls') || t.includes('rb')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Visa Cash App RB"><circle cx="12" cy="12" r="9" fill="#162238" stroke="#6c98ff" stroke-width="1.5"/><path d="M8 12c1.5-2 3.5-2 4-2s2.5 0 4 2c-1.5 2-3.5 2-4 2s-2.5 0-4-2z" fill="#fff"/></svg>`;
-    } else if (t.includes('haas')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="MoneyGram Haas F1 Team"><circle cx="12" cy="12" r="9.5" fill="#1e2023" stroke="#e10600" stroke-width="1.5"/><path d="M8 8v8m8-8v8M8 12h8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>`;
-    } else if (t.includes('audi') || t.includes('sauber')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Audi F1 Team"><circle cx="7" cy="12" r="4.2" stroke="#f50537" stroke-width="1.4" fill="none"/><circle cx="10.3" cy="12" r="4.2" stroke="#f50537" stroke-width="1.4" fill="none"/><circle cx="13.7" cy="12" r="4.2" stroke="#f50537" stroke-width="1.4" fill="none"/><circle cx="17" cy="12" r="4.2" stroke="#f50537" stroke-width="1.4" fill="none"/></svg>`;
-    } else if (t.includes('cadillac')) {
-      return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Cadillac Formula 1 Team"><path d="M4 7h16l-2 5-6 6-6-6L4 7z" fill="#909090" stroke="#fadb14" stroke-width="1"/><rect x="8" y="9" width="8" height="2" fill="#fff"/></svg>`;
+  const CONSTRUCTOR_ID_BY_KEY = {
+    'mclaren': 'mclaren',
+    'ferrari': 'ferrari',
+    'mercedes': 'mercedes',
+    'red_bull': 'red_bull',
+    'redbull': 'red_bull',
+    'aston_martin': 'aston_martin',
+    'aston': 'aston_martin',
+    'alpine': 'alpine',
+    'williams': 'williams',
+    'racing_bulls': 'racing_bulls',
+    'rb': 'racing_bulls',
+    'haas': 'haas',
+    'audi': 'audi',
+    'sauber': 'audi',
+    'cadillac': 'cadillac'
+  };
+
+  const CONSTRUCTOR_BRAND_METADATA = {
+    'mclaren': { name: 'McLaren Formula 1 Team', code: 'MCL', file: 'assets/teams/mclaren.webp' },
+    'ferrari': { name: 'Scuderia Ferrari', code: 'FER', file: 'assets/teams/ferrari.webp' },
+    'mercedes': { name: 'Mercedes-AMG PETRONAS Formula One Team', code: 'MER', file: 'assets/teams/mercedes.webp' },
+    'red_bull': { name: 'Red Bull Racing', code: 'RBR', file: 'assets/teams/red_bull.webp' },
+    'aston_martin': { name: 'Aston Martin Aramco Formula One Team', code: 'AMR', file: 'assets/teams/aston_martin.webp' },
+    'alpine': { name: 'BWT Alpine Formula One Team', code: 'ALP', file: 'assets/teams/alpine.webp' },
+    'williams': { name: 'Williams Racing', code: 'WIL', file: 'assets/teams/williams.webp' },
+    'racing_bulls': { name: 'Visa Cash App RB Formula One Team', code: 'RB', file: 'assets/teams/racing_bulls.webp' },
+    'haas': { name: 'MoneyGram Haas F1 Team', code: 'HAS', file: 'assets/teams/haas.webp' },
+    'audi': { name: 'Audi Revolut Formula 1 Team', code: 'AUD', file: 'assets/teams/audi.webp' },
+    'cadillac': { name: 'Cadillac Formula 1 Team', code: 'CAD', file: 'assets/teams/cadillac.webp' }
+  };
+
+  function resolveConstructorId(teamInput) {
+    if (!teamInput) return null;
+    const str = String(teamInput).trim().toLowerCase();
+    if (CONSTRUCTOR_ID_BY_KEY[str]) return CONSTRUCTOR_ID_BY_KEY[str];
+    if (str.includes('mclaren')) return 'mclaren';
+    if (str.includes('ferrari')) return 'ferrari';
+    if (str.includes('mercedes')) return 'mercedes';
+    if (str.includes('red bull') || str.includes('redbull') || str.includes('red_bull')) return 'red_bull';
+    if (str.includes('aston') || str.includes('martin')) return 'aston_martin';
+    if (str.includes('alpine')) return 'alpine';
+    if (str.includes('williams')) return 'williams';
+    if (str.includes('racing bulls') || str.includes('racing bull') || str.includes('racing_bulls') || str.includes('cash app') || str === 'rb' || str.includes('rb f1')) return 'racing_bulls';
+    if (str.includes('haas')) return 'haas';
+    if (str.includes('audi') || str.includes('sauber') || str.includes('stake')) return 'audi';
+    if (str.includes('cadillac')) return 'cadillac';
+    return null;
+  }
+
+  function getTeamLogoHtml(teamInput, options = {}) {
+    const constructorId = resolveConstructorId(teamInput);
+    const meta = constructorId ? CONSTRUCTOR_BRAND_METADATA[constructorId] : null;
+
+    if (!meta) {
+      const fallbackText = typeof teamInput === 'string' && teamInput.length > 0 
+        ? teamInput.substring(0, 3).toUpperCase() 
+        : 'F1';
+      return `<span class="team-logo-container font-mono text-muted" style="font-size: 10px; font-weight: 700;" title="${teamInput || 'Constructor'}">${fallbackText}</span>`;
     }
-    return `<span class="team-stripe" style="background-color: var(--f1-red);"></span>`;
+
+    const maxH = options.maxHeight || 16;
+    const maxW = options.maxWidth || 40;
+
+    return `
+      <span class="team-logo-container" title="${meta.name}">
+        <img src="${meta.file}" alt="${meta.name}" class="team-brand-logo" 
+             style="max-height: ${maxH}px; max-width: ${maxW}px;"
+             loading="lazy"
+             onerror="this.style.display='none'; if (this.nextElementSibling) this.nextElementSibling.style.display='inline-block';" />
+        <span class="team-logo-fallback font-mono" style="display: none;">${meta.code}</span>
+      </span>
+    `.trim();
+  }
+
+  function getTeamIconSvg(teamName) {
+    return getTeamLogoHtml(teamName);
   }
 
   function getDriverAvatarHtml(driver, size = 28) {
@@ -3627,19 +3678,24 @@
       return CONSTRUCTORS;
     }
 
-    async getNextGrandPrix() {
+    async getEventByRound(roundNumber) {
       const cal = await this.getCalendar();
-      const now = new Date();
-      let currentRound = cal.find(r => r.status === 'current') || cal.find(r => r.status === 'upcoming') || cal[cal.length - 1];
+      let targetRound = null;
+      if (roundNumber) {
+        targetRound = cal.find(r => r.round === parseInt(roundNumber, 10));
+      }
+      if (!targetRound) {
+        targetRound = cal.find(r => r.status === 'current') || cal.find(r => r.status === 'upcoming') || cal[cal.length - 1];
+      }
 
       let nextSession = null;
-      if (currentRound && currentRound.meetingKey) {
-        const cacheKey = `sessions_meeting_${currentRound.meetingKey}`;
+      if (targetRound && targetRound.meetingKey) {
+        const cacheKey = `sessions_meeting_${targetRound.meetingKey}`;
         let sessions = this.getCached(cacheKey, 2 * 3600 * 1000);
         if (!sessions) {
           try {
             await this.throttle();
-            const res = await fetch(`${this.openF1Base}/sessions?meeting_key=${currentRound.meetingKey}`);
+            const res = await fetch(`${this.openF1Base}/sessions?meeting_key=${targetRound.meetingKey}`);
             if (res.ok) {
               sessions = await res.json();
               if (Array.isArray(sessions) && sessions.length > 0) {
@@ -3648,24 +3704,21 @@
             }
           } catch(e) {}
         }
-        if (Array.isArray(sessions)) {
+        if (Array.isArray(sessions) && sessions.length > 0) {
+          const now = new Date();
           const futureSessions = sessions.filter(s => new Date(s.date_start) > now);
-          if (futureSessions.length > 0) {
-            nextSession = futureSessions[0];
-          } else {
-            nextSession = sessions[sessions.length - 1];
-          }
+          nextSession = futureSessions.length > 0 ? futureSessions[0] : sessions[sessions.length - 1];
         }
       }
 
-      const circuit = await this.getCircuitById(currentRound.circuitId || currentRound.circuitKey);
+      const circuit = await this.getCircuitById(targetRound.circuitId || targetRound.circuitKey);
       return {
-        round: currentRound,
+        round: targetRound,
         circuit: circuit || {
-          id: currentRound.circuitId,
-          name: currentRound.circuitName,
-          country: currentRound.country,
-          city: currentRound.city,
+          id: targetRound.circuitId,
+          name: targetRound.circuitName,
+          country: targetRound.country,
+          city: targetRound.city,
           lengthKm: "5.513 km",
           laps: 56,
           corners: 20,
@@ -3673,10 +3726,14 @@
           raceDistanceKm: "308.405 km"
         },
         nextSession: nextSession || {
-          session_name: "Practice 1",
-          date_start: "2026-10-23T17:30:00Z"
+          session_name: targetRound.status === 'completed' ? "Race (Concluded)" : "Practice 1",
+          date_start: targetRound.dateStart || "2026-10-23T17:30:00Z"
         }
       };
+    }
+
+    async getNextGrandPrix() {
+      return this.getEventByRound(null);
     }
 
     async getRecentRace() {
@@ -4100,6 +4157,7 @@
 
   function initHeaderCountdown(targetTimestamp) {
     const dEl = document.getElementById('header-countdown-d');
+    const hEl = document.getElementById('header-countdown-h');
     const mEl = document.getElementById('header-countdown-m');
     const sEl = document.getElementById('header-countdown-s');
     const legacyEl = document.getElementById('header-countdown');
@@ -4115,17 +4173,16 @@
       const diffSecs = Math.max(0, Math.floor((targetMs - now) / 1000));
       const days = String(Math.floor(diffSecs / 86400)).padStart(2, '0');
       const remSecs = diffSecs % 86400;
-      const hours = Math.floor(remSecs / 3600);
+      const hours = String(Math.floor(remSecs / 3600)).padStart(2, '0');
       const mins = String(Math.floor((remSecs % 3600) / 60)).padStart(2, '0');
       const secs = String(remSecs % 60).padStart(2, '0');
 
-      if (dEl && mEl && sEl) {
-        dEl.textContent = days;
-        mEl.textContent = mins;
-        sEl.textContent = secs;
-      }
+      if (dEl) dEl.textContent = days;
+      if (hEl) hEl.textContent = hours;
+      if (mEl) mEl.textContent = mins;
+      if (sEl) sEl.textContent = secs;
       if (legacyEl) {
-        legacyEl.textContent = `${days}D : ${String(hours).padStart(2, '0')}H : ${mins}M : ${secs}S`;
+        legacyEl.textContent = `${days}D : ${hours}H : ${mins}M : ${secs}S`;
       }
     }
 
@@ -4556,13 +4613,15 @@
      4. VIEWS
      ========================================== */
 
-  async function renderOverviewView() {
-    const nextGp = await dataService.getNextGrandPrix();
+  async function renderOverviewView(roundNumber = null) {
+    const calendar = await dataService.getCalendar();
+    const selectedEvent = await dataService.getEventByRound(roundNumber);
     const driverStandings = (await dataService.getDriverStandings()) || [];
     const constructorStandings = (await dataService.getConstructorStandings()) || [];
-    const liveFeed = (await dataService.getLiveTimingFeed()) || [];
     const recentRace = await dataService.getRecentRace();
-    const calendar = await dataService.getCalendar();
+
+    const isUpcoming = selectedEvent.round.status === 'upcoming';
+    const isCompleted = selectedEvent.round.status === 'completed';
 
     // 1. DRIVER CHAMPIONSHIP ROWS (Top 5)
     const driverRows = driverStandings.filter(Boolean).slice(0, 5);
@@ -4579,7 +4638,7 @@
             </a>
           </td>
           <td>
-            <div style="display: flex; align-items: center; gap: 5px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
               ${getTeamIconSvg(driverTeam)}
               <span class="text-secondary" style="font-size: 11px;">${driverTeam}</span>
             </div>
@@ -4614,111 +4673,348 @@
       `;
     }).join('');
 
-    // 3. LIVE / ARCHIVE TIMING ROWS (Top 5)
-    const timingFeed = liveFeed.slice(0, 5).map((t, idx) => {
-      const teamName = t.team || t.teamName || 'Team';
-      const tyreComp = t.tireCompound || (t.tyre?.compound ? t.tyre.compound[0].toUpperCase() : 'M');
-      return {
-        pos: idx + 1,
-        code: t.code,
-        team: teamName,
-        lap: t.lap || 62,
-        time: t.lapTime || '1:35.842',
-        gap: idx === 0 ? 'LEADER' : (t.gap && t.gap !== 'LEADER' ? t.gap : `+${(idx * 2.345).toFixed(3)}s`),
-        s1: t.s1?.time || '27.421',
-        s1Status: t.s1?.status || 'purple',
-        s2: t.s2?.time || '38.105',
-        s2Status: t.s2?.status || 'green',
-        s3: t.s3?.time || '29.614',
-        s3Status: t.s3?.status || 'green',
-        tyre: tyreComp,
-        tyreColor: tyreComp === 'S' ? '#f87171' : (tyreComp === 'H' ? '#e5e7eb' : '#facc15')
-      };
-    });
-
-    const timingRowsHtml = timingFeed.map(t => `
-      <tr>
-        <td class="pos-cell font-mono text-center" style="font-weight: 700;">${t.pos}</td>
-        <td style="font-weight: 700; color: var(--text-primary); font-family: var(--font-mono);">${t.code}</td>
-        <td>
-          <div style="display: flex; align-items: center; gap: 5px;">
-            ${getTeamIconSvg(t.team)}
-            <span class="text-secondary" style="font-size: 11px;">${t.team}</span>
-          </div>
-        </td>
-        <td class="font-mono text-center text-muted">${t.lap}</td>
-        <td class="font-mono" style="font-weight: 700; color: var(--text-primary);">${t.time}</td>
-        <td class="font-mono text-muted">${t.gap}</td>
-        <td class="font-mono text-center"><span class="sector-chip ${t.s1Status}">${t.s1}</span></td>
-        <td class="font-mono text-center"><span class="sector-chip ${t.s2Status}">${t.s2}</span></td>
-        <td class="font-mono text-center"><span class="sector-chip ${t.s3Status}">${t.s3}</span></td>
-        <td class="text-center">
-          <span style="display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid ${t.tyreColor}; color: ${t.tyreColor}; font-size: 9px; font-weight: 800; font-family: var(--font-mono);">
-            ${t.tyre}
-          </span>
-        </td>
-      </tr>
-    `).join('');
-
-    const sessionTitle = (nextGp.nextSession?.session_name || 'Practice 1').toUpperCase();
-    const sessionTimeDisplay = nextGp.round.sessions?.p1 || 'FRI 23 OCT · 17:30 UTC';
-
+    // 3. EVENT SPECIFIC MODULES (Hero Image, Venue Weather, Session State)
     const heroImageMap = {
       'austin': 'assets/austin-hero.jpg',
       'circuit-of-the-americas': 'assets/austin-hero.jpg',
+      '9': 'assets/austin-hero.jpg',
       'singapore': 'assets/singapore-hero.jpg',
-      'marina-bay': 'assets/singapore-hero.jpg'
+      'marina-bay': 'assets/singapore-hero.jpg',
+      '61': 'assets/singapore-hero.jpg'
     };
-    const heroBgImg = (nextGp.round && heroImageMap[nextGp.round.circuitId]) 
-      ? heroImageMap[nextGp.round.circuitId] 
-      : 'assets/austin-hero.jpg';
+    const circuitIdKey = String(selectedEvent.round.circuitId || selectedEvent.round.circuitKey || '').toLowerCase();
+    const heroBgImg = heroImageMap[circuitIdKey] || (selectedEvent.round.circuitId === '61' ? 'assets/singapore-hero.jpg' : 'assets/austin-hero.jpg');
+
+    // Venue Weather derived strictly from selectedEvent
+    const venueWeatherPresets = {
+      '9': {
+        title: 'SESSION WEATHER // CIRCUIT OF THE AMERICAS',
+        badge: 'AUSTIN VENUE FORECAST',
+        airTemp: '24.6°C',
+        trackTemp: '31.2°C',
+        rainProb: '0%',
+        wind: '2.4 m/s (NE)',
+        humidity: '46.0%'
+      },
+      'austin': {
+        title: 'SESSION WEATHER // CIRCUIT OF THE AMERICAS',
+        badge: 'AUSTIN VENUE FORECAST',
+        airTemp: '24.6°C',
+        trackTemp: '31.2°C',
+        rainProb: '0%',
+        wind: '2.4 m/s (NE)',
+        humidity: '46.0%'
+      },
+      '61': {
+        title: 'SESSION WEATHER // MARINA BAY STREET CIRCUIT',
+        badge: 'SINGAPORE GP ARCHIVE',
+        airTemp: '30.2°C',
+        trackTemp: '41.5°C',
+        rainProb: '10%',
+        wind: '1.4 m/s (SW)',
+        humidity: '77.4%'
+      },
+      'singapore': {
+        title: 'SESSION WEATHER // MARINA BAY STREET CIRCUIT',
+        badge: 'SINGAPORE GP ARCHIVE',
+        airTemp: '30.2°C',
+        trackTemp: '41.5°C',
+        rainProb: '10%',
+        wind: '1.4 m/s (SW)',
+        humidity: '77.4%'
+      }
+    };
+    const activeWeather = venueWeatherPresets[circuitIdKey] || {
+      title: `SESSION WEATHER // ${selectedEvent.circuit.name.toUpperCase()}`,
+      badge: `${(selectedEvent.round.city || selectedEvent.round.country).toUpperCase()} TRACK SENSORS`,
+      airTemp: '23.8°C',
+      trackTemp: '29.5°C',
+      rainProb: '0%',
+      wind: '1.8 m/s (W)',
+      humidity: '52.0%'
+    };
+
+    // Hero Kicker & Status
+    const roundNumberStr = String(selectedEvent.round.round).padStart(2, '0');
+    const totalRounds = calendar.length;
+    const statusText = isUpcoming ? 'UPCOMING GRAND PRIX' : (isCompleted ? 'COMPLETED ROUND' : 'CURRENT EVENT');
+    const statusBadgeClass = isCompleted ? 'completed' : 'upcoming';
+
+    // Hero Right Panel (Countdown or Result)
+    let heroRightPanelHtml = '';
+    if (isUpcoming) {
+      const sessionTitle = (selectedEvent.nextSession?.session_name || 'Practice 1').toUpperCase();
+      const sessionTimeDisplay = selectedEvent.round.sessions?.p1 || 'FRI 23 OCT · 17:30 UTC';
+      heroRightPanelHtml = `
+        <div class="hero-session-box" aria-label="Session Countdown">
+          <span class="hero-session-kicker">NEXT SESSION</span>
+          <span class="hero-session-title">${sessionTitle}</span>
+          
+          <div class="hero-countdown-container">
+            <div class="hero-countdown-digits-row font-mono">
+              <span id="header-countdown-d">00</span>
+              <span class="hero-countdown-colon">:</span>
+              <span id="header-countdown-h">00</span>
+              <span class="hero-countdown-colon">:</span>
+              <span id="header-countdown-m">00</span>
+              <span class="hero-countdown-colon">:</span>
+              <span id="header-countdown-s">00</span>
+            </div>
+            <div class="hero-countdown-units-row">
+              <span>DAYS</span>
+              <span style="opacity: 0; padding: 0 2px;" aria-hidden="true">:</span>
+              <span>HRS</span>
+              <span style="opacity: 0; padding: 0 2px;" aria-hidden="true">:</span>
+              <span>MINS</span>
+              <span style="opacity: 0; padding: 0 2px;" aria-hidden="true">:</span>
+              <span>SECS</span>
+            </div>
+          </div>
+
+          <span class="hero-session-timestamp">${sessionTimeDisplay}</span>
+        </div>
+      `;
+    } else {
+      heroRightPanelHtml = `
+        <div class="hero-session-box" aria-label="Event Classification Summary">
+          <span class="hero-session-kicker">EVENT STATUS</span>
+          <span class="hero-session-title">OFFICIAL RESULT</span>
+          
+          <div style="margin: 8px 0; display: flex; flex-direction: column; gap: 4px;">
+            <div class="technical-label" style="font-size: 9px;">RACE WINNER</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">${selectedEvent.round.winner || 'M. Verstappen'}</div>
+            <div class="font-mono text-muted" style="font-size: 11px;">${selectedEvent.circuit.laps || 62} LAPS COMPLETED</div>
+          </div>
+
+          <span class="hero-session-timestamp">${selectedEvent.round.date}</span>
+        </div>
+      `;
+    }
+
+    // Row 3 Card 1: Session Status / Archive (Honest data mapping)
+    let row3Card1Html = '';
+    if (isUpcoming) {
+      // Show honest upcoming scheduled sessions & standby state for United States GP
+      const sessions = selectedEvent.round.sessions || {
+        p1: 'FRI 23 OCT · 17:30 UTC',
+        p2: 'FRI 23 OCT · 21:00 UTC',
+        p3: 'SAT 24 OCT · 17:30 UTC',
+        quali: 'SAT 24 OCT · 21:00 UTC',
+        race: 'SUN 25 OCT · 20:00 UTC'
+      };
+
+      row3Card1Html = `
+        <div class="panel">
+          <div class="panel-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.06em; color: var(--text-primary);">
+                SESSION STATUS // ${selectedEvent.round.grandPrix.toUpperCase()}
+              </span>
+              <span class="hero-status-badge">ROUND ${selectedEvent.round.round} · UPCOMING</span>
+            </div>
+            <span class="font-mono text-muted" style="font-size: 11px;">SCHEDULED RACE WEEKEND</span>
+          </div>
+
+          <div class="upcoming-session-schedule-list">
+            <div class="upcoming-session-row current-target">
+              <div>
+                <span style="font-weight: 700; color: var(--text-primary);">Practice 1</span>
+                <span class="text-muted font-mono" style="font-size: 11px; margin-left: 8px;">60 MINS</span>
+              </div>
+              <span class="font-mono text-muted" style="font-size: 11px;">${sessions.p1}</span>
+              <span class="badge-tag status-green" style="font-size: 9px; font-weight: 700;">NEXT SESSION</span>
+            </div>
+            <div class="upcoming-session-row">
+              <div>
+                <span style="font-weight: 700; color: var(--text-primary);">Practice 2</span>
+                <span class="text-muted font-mono" style="font-size: 11px; margin-left: 8px;">60 MINS</span>
+              </div>
+              <span class="font-mono text-muted" style="font-size: 11px;">${sessions.p2}</span>
+              <span class="badge-tag" style="font-size: 9px;">SCHEDULED</span>
+            </div>
+            <div class="upcoming-session-row">
+              <div>
+                <span style="font-weight: 700; color: var(--text-primary);">Practice 3</span>
+                <span class="text-muted font-mono" style="font-size: 11px; margin-left: 8px;">60 MINS</span>
+              </div>
+              <span class="font-mono text-muted" style="font-size: 11px;">${sessions.p3}</span>
+              <span class="badge-tag" style="font-size: 9px;">SCHEDULED</span>
+            </div>
+            <div class="upcoming-session-row">
+              <div>
+                <span style="font-weight: 700; color: var(--text-primary);">Qualifying</span>
+                <span class="text-muted font-mono" style="font-size: 11px; margin-left: 8px;">Q1 · Q2 · Q3</span>
+              </div>
+              <span class="font-mono text-muted" style="font-size: 11px;">${sessions.quali}</span>
+              <span class="badge-tag" style="font-size: 9px;">SCHEDULED</span>
+            </div>
+            <div class="upcoming-session-row">
+              <div>
+                <span style="font-weight: 700; color: var(--text-primary);">Grand Prix</span>
+                <span class="text-muted font-mono" style="font-size: 11px; margin-left: 8px;">${selectedEvent.circuit.laps} LAPS</span>
+              </div>
+              <span class="font-mono text-muted" style="font-size: 11px;">${sessions.race}</span>
+              <span class="badge-tag" style="font-size: 9px;">SCHEDULED</span>
+            </div>
+          </div>
+
+          <div class="session-standby-banner">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted);"></span>
+              <span class="font-mono" style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-secondary);">
+                TRACK TIMING TRANSPONDERS & TELEMETRY SENSORS ON STANDBY
+              </span>
+            </div>
+            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">
+              Live telemetry streams and car transponders activate at green flag for Practice 1. Explore recent completed session classifications below or launch the telemetry replay engine.
+            </p>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <a href="#results/19" class="hero-pill-link" style="font-size: 10px; padding: 4px 10px;">
+                <span>VIEW ROUND 19 ARCHIVE (SINGAPORE)</span>
+                <span>→</span>
+              </a>
+              <a href="#live-timing" class="hero-pill-link" style="font-size: 10px; padding: 4px 10px;">
+                <span>OPEN TELEMETRY SIMULATION</span>
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      // Completed Round Archive Classification
+      const resData = await dataService.getRaceResults(selectedEvent.round.round);
+      const results = (resData?.results && resData.results.length > 0) ? resData.results.slice(0, 5) : [];
+      
+      const timingRowsHtml = results.map(r => `
+        <tr>
+          <td class="pos-cell font-mono text-center" style="font-weight: 700;">${r.pos}</td>
+          <td style="font-weight: 700; color: var(--text-primary); font-family: var(--font-mono);">${r.code}</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              ${getTeamIconSvg(r.teamName || r.team)}
+              <span class="text-secondary" style="font-size: 11px;">${r.teamName || r.team}</span>
+            </div>
+          </td>
+          <td class="font-mono text-center text-muted">${selectedEvent.circuit.laps || 62}</td>
+          <td class="font-mono" style="font-weight: 700; color: var(--text-primary);">${r.time}</td>
+          <td class="font-mono text-muted">${r.gap || '-'}</td>
+          <td class="font-mono text-center"><span class="sector-chip purple">FL</span></td>
+          <td class="font-mono text-center"><span class="sector-chip green">P${r.pits || 1}</span></td>
+          <td class="font-mono text-center"><span class="sector-chip green">${r.points} PTS</span></td>
+          <td class="text-center font-mono text-muted">H</td>
+        </tr>
+      `).join('');
+
+      row3Card1Html = `
+        <div class="panel">
+          <div class="panel-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.06em; color: var(--text-primary);">
+                SESSION ARCHIVE // ${selectedEvent.round.grandPrix.toUpperCase()}
+              </span>
+              <span class="badge-tag status-green" style="padding: 1px 6px; font-size: 9px; font-weight: 600;">COMPLETED ROUND ${selectedEvent.round.round}</span>
+            </div>
+            <span class="font-mono text-muted" style="font-size: 11px;">CLASSIFICATION · ${selectedEvent.circuit.laps || 62} LAPS</span>
+          </div>
+
+          <div class="panel-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table" style="font-size: 11px;">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="width: 28px;">POS</th>
+                    <th>DRIVER</th>
+                    <th>CONSTRUCTOR</th>
+                    <th class="text-center" style="width: 32px;">LAPS</th>
+                    <th>TIME</th>
+                    <th>GAP</th>
+                    <th class="text-center">FAST</th>
+                    <th class="text-center">PIT</th>
+                    <th class="text-center">PTS</th>
+                    <th class="text-center">TYRE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${timingRowsHtml}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Schedule list for right column
+    const scheduleSessions = selectedEvent.round.sessions || {
+      p1: 'FRI 23 OCT · 17:30 UTC',
+      p2: 'FRI 23 OCT · 21:00 UTC',
+      p3: 'SAT 24 OCT · 17:30 UTC',
+      quali: 'SAT 24 OCT · 21:00 UTC',
+      race: 'SUN 25 OCT · 20:00 UTC'
+    };
 
     return `
       <div class="overview-dashboard">
         
+        <!-- EVENT SELECTOR TOOLBAR -->
+        <div class="event-selector-bar">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="overview-event-select" class="technical-label" style="font-size: 10px; color: var(--text-muted); cursor: pointer;">EVENT FOCUS:</label>
+            <select id="overview-event-select" class="event-selector-select" aria-label="Select Grand Prix Focus">
+              ${calendar.map(r => `
+                <option value="${r.round}" ${r.round === selectedEvent.round.round ? 'selected' : ''}>
+                  ROUND ${String(r.round).padStart(2, '0')}: ${r.grandPrix.toUpperCase()} (${r.status.toUpperCase()})
+                </option>
+              `).join('')}
+            </select>
+          </div>
+          <div class="font-mono text-muted" style="font-size: 11px;">
+            ${selectedEvent.round.circuitName} · ${selectedEvent.round.date}
+          </div>
+        </div>
+
         <!-- ========================================================
-             ROW 1: NEXT GRAND PRIX HERO BANNER (DYNAMIC ANCHOR)
+             ROW 1: EDITORIAL GRAND PRIX HERO BANNER
              ======================================================== -->
-        <section class="overview-hero-card" style="background-image: linear-gradient(90deg, rgba(12, 13, 16, 0.92) 0%, rgba(12, 13, 16, 0.74) 45%, rgba(12, 13, 16, 0.28) 75%, rgba(12, 13, 16, 0.88) 100%), url('${heroBgImg}'); background-position: center 42%; background-size: cover; background-repeat: no-repeat;" aria-label="Next Grand Prix Anchor">
-          <div class="hero-left-content">
-            <div class="hero-round-label">ROUND ${String(nextGp.round.round).padStart(2, '0')} / ${calendar.length}</div>
-            <h1 class="hero-title-main">${nextGp.round.grandPrix.toUpperCase()}</h1>
-            <div class="hero-circuit-row">
-              <span class="country-flag-icon" style="font-size: 14px; margin-right: 4px;">${nextGp.round.flag || '🏁'}</span>
-              <span>${nextGp.round.circuitName.toUpperCase()} · ${(nextGp.round.city || nextGp.round.country).toUpperCase()}</span>
+        <section class="overview-hero-card" style="background-image: linear-gradient(90deg, rgba(12, 13, 16, 0.94) 0%, rgba(12, 13, 16, 0.82) 44%, rgba(12, 13, 16, 0.32) 75%, rgba(12, 13, 16, 0.88) 100%), url('${heroBgImg}');" aria-label="${selectedEvent.round.grandPrix} Editorial Banner">
+          
+          <!-- LEFT EDITORIAL CONTENT COLUMN -->
+          <div class="hero-editorial-column">
+            <!-- 1. Round and event status -->
+            <div class="hero-status-kicker">
+              <span>ROUND ${roundNumberStr} / ${totalRounds}</span>
+              <span class="hero-status-badge ${statusBadgeClass}">${statusText}</span>
             </div>
-            <div class="hero-badges-row">
-              <span class="hero-pill-date">${nextGp.round.date}</span>
-              <a href="#circuits/${nextGp.round.circuitId}" class="hero-pill-link">
+
+            <!-- 2. Country identifier -->
+            <div class="hero-country-identifier">
+              <span class="country-flag-symbol">${selectedEvent.round.flag || '🏁'}</span>
+              <span>${selectedEvent.round.country.toUpperCase()}</span>
+            </div>
+
+            <!-- 3. Grand Prix title -->
+            <h1 class="hero-title-main">${selectedEvent.round.grandPrix.toUpperCase()}</h1>
+
+            <!-- 4. Circuit name or location -->
+            <div class="hero-venue-location">
+              <span>${selectedEvent.round.circuitName.toUpperCase()}</span>
+              <span class="text-muted">·</span>
+              <span class="text-muted">${(selectedEvent.round.city || selectedEvent.round.country).toUpperCase()}</span>
+            </div>
+
+            <!-- 5 & 6. Grouped date range & circuit action -->
+            <div class="hero-actions-group">
+              <span class="hero-pill-date">${selectedEvent.round.date}</span>
+              <a href="#circuits/${selectedEvent.round.circuitId || selectedEvent.round.circuitKey}" class="hero-pill-link">
                 <span>CIRCUIT SPECIFICATION</span>
                 <span>→</span>
               </a>
             </div>
           </div>
 
-          <div class="hero-session-box">
-            <span class="hero-session-kicker">NEXT SESSION</span>
-            <span class="hero-session-title">${sessionTitle}</span>
-            
-            <div class="hero-countdown-container">
-              <div class="hero-countdown-digits-row">
-                <span id="header-countdown-d">00</span>
-                <span class="hero-countdown-colon">:</span>
-                <span id="header-countdown-m">00</span>
-                <span class="hero-countdown-colon">:</span>
-                <span id="header-countdown-s">00</span>
-              </div>
-              <div class="hero-countdown-units-row">
-                <span>DAYS</span>
-                <span style="opacity: 0; padding: 0 4px;" aria-hidden="true">:</span>
-                <span>MINS</span>
-                <span style="opacity: 0; padding: 0 4px;" aria-hidden="true">:</span>
-                <span>SECS</span>
-              </div>
-            </div>
-
-            <span class="hero-session-timestamp">${sessionTimeDisplay}</span>
-          </div>
+          <!-- RIGHT INDEPENDENT COUNTDOWN / STATUS PANEL -->
+          ${heroRightPanelHtml}
         </section>
 
         <!-- ========================================================
@@ -4739,7 +5035,7 @@
                     <tr>
                       <th class="text-center" style="width: 28px;">POS</th>
                       <th>DRIVER</th>
-                      <th>TEAM</th>
+                      <th>CONSTRUCTOR</th>
                       <th class="text-right">PTS</th>
                       <th class="text-center" style="width: 24px;">W</th>
                       <th class="text-center" style="width: 28px;">POD</th>
@@ -4782,11 +5078,11 @@
             </div>
           </div>
 
-          <!-- COLUMN 3: CIRCUIT INFO -->
+          <!-- COLUMN 3: CIRCUIT SPECIFICATION -->
           <div class="panel">
             <div class="panel-header">
-              <span class="panel-title">CIRCUIT INFO</span>
-              <a href="#circuits/${nextGp.round.circuitId}" class="panel-action-link" style="text-decoration: none; font-size: 11px; color: var(--text-muted); font-weight: 600;">
+              <span class="panel-title">CIRCUIT SPECIFICATION</span>
+              <a href="#circuits/${selectedEvent.round.circuitId || selectedEvent.round.circuitKey}" class="panel-action-link" style="text-decoration: none; font-size: 11px; color: var(--text-muted); font-weight: 600;">
                 View Circuit →
               </a>
             </div>
@@ -4794,29 +5090,29 @@
             <div class="panel-body" style="padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3);">
               <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                  <div class="technical-label" style="font-size: 9px; margin-bottom: 2px;">NEXT UPCOMING VENUE</div>
-                  <div style="font-weight: 800; font-size: 13px; color: var(--text-primary); text-transform: uppercase;">${nextGp.circuit.name}</div>
-                  <div class="text-muted font-mono" style="font-size: 11px;">${nextGp.round.city}, ${nextGp.round.country}</div>
+                  <div class="technical-label" style="font-size: 9px; margin-bottom: 2px;">VENUE SPECIFICATION</div>
+                  <div style="font-weight: 800; font-size: 13px; color: var(--text-primary); text-transform: uppercase;">${selectedEvent.circuit.name}</div>
+                  <div class="text-muted font-mono" style="font-size: 11px;">${selectedEvent.round.city}, ${selectedEvent.round.country}</div>
                 </div>
-                <span style="font-size: 24px;">${nextGp.round.flag || '🏁'}</span>
+                <span style="font-size: 24px;">${selectedEvent.round.flag || '🏁'}</span>
               </div>
 
               <div class="circuit-stats-quad">
                 <div class="stat-quad-item">
                   <span class="stat-quad-label">LENGTH</span>
-                  <span class="stat-quad-value font-mono">${nextGp.circuit.lengthKm}</span>
+                  <span class="stat-quad-value font-mono">${selectedEvent.circuit.lengthKm}</span>
                 </div>
                 <div class="stat-quad-item">
                   <span class="stat-quad-label">CORNERS</span>
-                  <span class="stat-quad-value font-mono">${nextGp.circuit.corners}</span>
+                  <span class="stat-quad-value font-mono">${selectedEvent.circuit.corners}</span>
                 </div>
                 <div class="stat-quad-item">
                   <span class="stat-quad-label">LAPS</span>
-                  <span class="stat-quad-value font-mono">${nextGp.circuit.laps}</span>
+                  <span class="stat-quad-value font-mono">${selectedEvent.circuit.laps}</span>
                 </div>
                 <div class="stat-quad-item">
                   <span class="stat-quad-label">RACE DISTANCE</span>
-                  <span class="stat-quad-value font-mono">${nextGp.circuit.raceDistanceKm}</span>
+                  <span class="stat-quad-value font-mono">${selectedEvent.circuit.raceDistanceKm}</span>
                 </div>
               </div>
             </div>
@@ -4827,50 +5123,18 @@
         <!-- ========================================================
              ROW 3: 2 UNEQUAL COLUMNS SPLIT (WIDE LEFT + COMPACT RIGHT)
              ======================================================== -->
-        <section class="overview-row-split" aria-label="Live Operations and Analytical Overview">
+        <section class="overview-row-split" aria-label="Operations and Analytical Status">
           
-          <!-- LEFT COLUMN: LIVE TIMING + RECENT RACE -->
+          <!-- LEFT COLUMN: SESSION STATUS/ARCHIVE + RECENT COMPLETED RACE -->
           <div class="overview-col-left">
             
-            <!-- Card 1: Timing Archive -->
+            <!-- Card 1: Session Status or Archive -->
+            ${row3Card1Html}
+
+            <!-- Card 2: Recent Completed Race -->
             <div class="panel">
               <div class="panel-header">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.06em; color: var(--text-primary);">SESSION ARCHIVE // SINGAPORE GRAND PRIX</span>
-                  <span class="badge-tag" style="padding: 1px 6px; font-size: 9px; font-weight: 600;">COMPLETED ROUND 19</span>
-                </div>
-                <span class="font-mono text-muted" style="font-size: 11px;">CLASSIFICATION · 62 LAPS</span>
-              </div>
-
-              <div class="panel-body no-padding">
-                <div class="table-responsive">
-                  <table class="data-table" style="font-size: 11px;">
-                    <thead>
-                      <tr>
-                        <th class="text-center" style="width: 28px;">POS</th>
-                        <th>DRIVER</th>
-                        <th>TEAM</th>
-                        <th class="text-center" style="width: 32px;">LAP</th>
-                        <th>TIME</th>
-                        <th>GAP</th>
-                        <th class="text-center">S1</th>
-                        <th class="text-center">S2</th>
-                        <th class="text-center">S3</th>
-                        <th class="text-center">TYRE</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${timingRowsHtml}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 2: Recent Race -->
-            <div class="panel">
-              <div class="panel-header">
-                <span class="panel-title">RECENT RACE</span>
+                <span class="panel-title">RECENT COMPLETED RACE</span>
                 <a href="#results/${recentRace.roundNumber || 19}" class="panel-action-link" style="text-decoration: none; font-size: 11px; color: var(--text-muted); font-weight: 600;">
                   ${recentRace.raceName} →
                 </a>
@@ -4934,11 +5198,11 @@
           <!-- RIGHT COLUMN: WEATHER + SCHEDULE + PROGRESSION -->
           <div class="overview-col-right">
             
-            <!-- Card 1: Weather (Singapore GP sensor archive) -->
+            <!-- Card 1: Weather (Derived strictly from selectedEvent) -->
             <div class="panel">
               <div class="panel-header">
-                <span class="panel-title">SESSION WEATHER SENSORS</span>
-                <span class="badge-tag" style="font-size: 9px;">SINGAPORE GP ARCHIVE</span>
+                <span class="panel-title">${activeWeather.title}</span>
+                <span class="badge-tag" style="font-size: 9px;">${activeWeather.badge}</span>
               </div>
               <div class="weather-panel-content">
                 <div class="weather-top-metric-row">
@@ -4948,11 +5212,11 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="font-mono" style="font-size: 19px; font-weight: 800; color: var(--text-primary); line-height: 1;">30.2°C</div>
+                    <div class="font-mono" style="font-size: 19px; font-weight: 800; color: var(--text-primary); line-height: 1;">${activeWeather.airTemp}</div>
                     <div class="technical-label" style="font-size: 9px; margin-top: 2px;">AIR TEMP</div>
                   </div>
                   <div style="margin-left: var(--space-4);">
-                    <div class="font-mono" style="font-size: 19px; font-weight: 800; color: var(--text-primary); line-height: 1;">41.5°C</div>
+                    <div class="font-mono" style="font-size: 19px; font-weight: 800; color: var(--text-primary); line-height: 1;">${activeWeather.trackTemp}</div>
                     <div class="technical-label" style="font-size: 9px; margin-top: 2px;">TRACK TEMP</div>
                   </div>
                 </div>
@@ -4960,53 +5224,53 @@
                 <div class="weather-bottom-metric-row">
                   <div style="display: flex; align-items: center; gap: 4px;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
-                    <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">0%</span>
+                    <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">${activeWeather.rainProb}</span>
                     <span class="text-muted" style="font-size: 9px;">RAIN PROB.</span>
                   </div>
                   <div style="display: flex; align-items: center; gap: 4px;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">1.4 m/s</span>
-                    <span class="text-muted" style="font-size: 9px;">WIND (SW)</span>
+                    <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">${activeWeather.wind}</span>
+                    <span class="text-muted" style="font-size: 9px;">WIND</span>
                   </div>
                   <div>
-                    <span style="font-weight: 700; color: var(--text-primary);">77.4%</span>
+                    <span style="font-weight: 700; color: var(--text-primary);">${activeWeather.humidity}</span>
                     <span class="text-muted" style="font-size: 9px; margin-left: 2px;">HUMIDITY</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Card 2: Upcoming Event Sessions -->
+            <!-- Card 2: Event Weekend Schedule -->
             <div class="panel">
               <div class="panel-header">
-                <span class="panel-title">UPCOMING EVENT SCHEDULE</span>
-                <span class="font-mono text-muted" style="font-size: 11px;">ROUND 20 · AUSTIN</span>
+                <span class="panel-title">EVENT WEEKEND SCHEDULE</span>
+                <span class="font-mono text-muted" style="font-size: 11px;">ROUND ${selectedEvent.round.round} · ${(selectedEvent.round.city || selectedEvent.round.country).toUpperCase()}</span>
               </div>
               <div class="schedule-clean-list">
                 <div class="schedule-clean-row">
                   <span class="schedule-clean-session">Practice 1</span>
-                  <span class="font-mono text-muted" style="font-size: 11px;">FRI 23 OCT · 17:30 UTC</span>
-                  <span class="schedule-status-upcoming">SCHEDULED</span>
+                  <span class="font-mono text-muted" style="font-size: 11px;">${scheduleSessions.p1}</span>
+                  <span class="schedule-status-upcoming">${isCompleted ? 'COMPLETED' : 'SCHEDULED'}</span>
                 </div>
                 <div class="schedule-clean-row">
                   <span class="schedule-clean-session">Practice 2</span>
-                  <span class="font-mono text-muted" style="font-size: 11px;">FRI 23 OCT · 21:00 UTC</span>
-                  <span class="schedule-status-upcoming">SCHEDULED</span>
+                  <span class="font-mono text-muted" style="font-size: 11px;">${scheduleSessions.p2}</span>
+                  <span class="schedule-status-upcoming">${isCompleted ? 'COMPLETED' : 'SCHEDULED'}</span>
                 </div>
                 <div class="schedule-clean-row">
                   <span class="schedule-clean-session">Practice 3</span>
-                  <span class="font-mono text-muted" style="font-size: 11px;">SAT 24 OCT · 17:30 UTC</span>
-                  <span class="schedule-status-upcoming">SCHEDULED</span>
+                  <span class="font-mono text-muted" style="font-size: 11px;">${scheduleSessions.p3}</span>
+                  <span class="schedule-status-upcoming">${isCompleted ? 'COMPLETED' : 'SCHEDULED'}</span>
                 </div>
                 <div class="schedule-clean-row">
                   <span class="schedule-clean-session">Qualifying</span>
-                  <span class="font-mono text-muted" style="font-size: 11px;">SAT 24 OCT · 21:00 UTC</span>
-                  <span class="schedule-status-upcoming">SCHEDULED</span>
+                  <span class="font-mono text-muted" style="font-size: 11px;">${scheduleSessions.quali}</span>
+                  <span class="schedule-status-upcoming">${isCompleted ? 'COMPLETED' : 'SCHEDULED'}</span>
                 </div>
                 <div class="schedule-clean-row">
                   <span class="schedule-clean-session">Grand Prix</span>
-                  <span class="font-mono text-muted" style="font-size: 11px;">SUN 25 OCT · 20:00 UTC</span>
-                  <span class="schedule-status-upcoming">SCHEDULED</span>
+                  <span class="font-mono text-muted" style="font-size: 11px;">${scheduleSessions.race}</span>
+                  <span class="schedule-status-upcoming">${isCompleted ? 'COMPLETED' : 'SCHEDULED'}</span>
                 </div>
               </div>
             </div>
@@ -5063,6 +5327,18 @@
 
       </div>
     `;
+  }
+
+  function bindOverviewEvents(onSelectRound) {
+    const selectEl = document.getElementById('overview-event-select');
+    if (selectEl && onSelectRound) {
+      selectEl.addEventListener('change', (e) => {
+        const roundNum = e.target.value;
+        if (roundNum) {
+          onSelectRound(roundNum);
+        }
+      });
+    }
   }
 
   async function renderLiveTimingView() {
@@ -6363,11 +6639,17 @@
 
       switch (route) {
         case 'overview':
+          const targetRound = param ? parseInt(param, 10) : null;
           titleText = 'OVERVIEW';
-          viewHtml = await renderOverviewView();
+          viewHtml = await renderOverviewView(targetRound);
           this.viewportEl.innerHTML = viewHtml;
-          const nextGp = await dataService.getNextGrandPrix();
-          this.countdownTimer = initHeaderCountdown(nextGp?.nextSession?.date_start);
+          bindOverviewEvents(roundNum => {
+            window.location.hash = `overview/${roundNum}`;
+          });
+          const activeEvent = await dataService.getEventByRound(targetRound);
+          if (activeEvent?.round?.status === 'upcoming') {
+            this.countdownTimer = initHeaderCountdown(activeEvent?.nextSession?.date_start);
+          }
           break;
 
         case 'live-timing':
@@ -6442,8 +6724,13 @@
           titleText = 'OVERVIEW';
           viewHtml = await renderOverviewView();
           this.viewportEl.innerHTML = viewHtml;
+          bindOverviewEvents(roundNum => {
+            window.location.hash = `overview/${roundNum}`;
+          });
           const defNextGp = await dataService.getNextGrandPrix();
-          this.countdownTimer = initHeaderCountdown(defNextGp?.nextSession?.date_start);
+          if (defNextGp?.round?.status === 'upcoming') {
+            this.countdownTimer = initHeaderCountdown(defNextGp?.nextSession?.date_start);
+          }
           break;
       }
 

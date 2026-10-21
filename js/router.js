@@ -3,7 +3,7 @@
    Client-side hash routing with clean view lifecycles
    ========================================================================== */
 
-import { renderOverviewView } from './views/overview-view.js';
+import { renderOverviewView, bindOverviewEvents } from './views/overview-view.js';
 import { renderLiveTimingView, bindLiveTimingEvents } from './views/live-timing-view.js';
 import { renderDriversView, bindDriversEvents } from './views/drivers-view.js';
 import { renderConstructorsView } from './views/constructors-view.js';
@@ -68,9 +68,13 @@ class AppRouter {
 
     switch (route) {
       case 'overview':
+        const targetRound = param ? parseInt(param, 10) : null;
         titleText = 'RACE CONTROL // OVERVIEW';
-        viewHtml = await renderOverviewView();
+        viewHtml = await renderOverviewView(targetRound);
         this.viewportEl.innerHTML = viewHtml;
+        bindOverviewEvents(roundNum => {
+          window.location.hash = `overview/${roundNum}`;
+        });
         this.countdownTimer = initHeaderCountdown();
         break;
 
@@ -136,6 +140,9 @@ class AppRouter {
         titleText = 'RACE CONTROL // OVERVIEW';
         viewHtml = await renderOverviewView();
         this.viewportEl.innerHTML = viewHtml;
+        bindOverviewEvents(roundNum => {
+          window.location.hash = `overview/${roundNum}`;
+        });
         this.countdownTimer = initHeaderCountdown();
         break;
     }

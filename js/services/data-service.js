@@ -121,20 +121,26 @@ export class F1DataService {
     return [...CALENDAR_ROUNDS];
   }
 
-  async getNextGrandPrix() {
+  async getEventByRound(roundNumber) {
     const calendar = await this.getCalendar();
-    const nextRound = calendar.find(r => r.status === 'upcoming') || calendar[calendar.length - 1];
+    let targetRound = null;
+    if (roundNumber) {
+      targetRound = calendar.find(r => r.round === parseInt(roundNumber, 10));
+    }
+    if (!targetRound) {
+      targetRound = calendar.find(r => r.status === 'upcoming') || calendar[calendar.length - 1];
+    }
     let nextSession = null;
 
-    if (nextRound && nextRound.meetingKey) {
-      const cacheKey = `sessions_meeting_${nextRound.meetingKey}`;
+    if (targetRound && targetRound.meetingKey) {
+      const cacheKey = `sessions_meeting_${targetRound.meetingKey}`;
       const cached = this.getCached(cacheKey, 7200000);
       if (cached) {
         nextSession = cached.find(s => new Date(s.date_start) > new Date()) || cached[0];
       } else {
         try {
           await this.throttle();
-          const res = await fetch(`${this.openF1Base}/sessions?meeting_key=${nextRound.meetingKey}`);
+          const res = await fetch(`${this.openF1Base}/sessions?meeting_key=${targetRound.meetingKey}`);
           if (res.ok) {
             const sessions = await res.json();
             this.setCached(cacheKey, sessions);
@@ -144,15 +150,19 @@ export class F1DataService {
       }
     }
 
-    const circuit = await this.getCircuitById(nextRound?.circuitId);
+    const circuit = await this.getCircuitById(targetRound?.circuitId);
     return {
-      round: nextRound,
+      round: targetRound,
       circuit: circuit,
       nextSession: nextSession || {
-        session_name: "Practice 1",
-        date_start: "2026-10-23T17:30:00Z"
+        session_name: targetRound?.status === 'completed' ? "Race (Concluded)" : "Practice 1",
+        date_start: targetRound?.dateStart || "2026-10-23T17:30:00Z"
       }
     };
+  }
+
+  async getNextGrandPrix() {
+    return this.getEventByRound(null);
   }
 
   async getRecentRace() {
