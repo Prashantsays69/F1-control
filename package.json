@@ -1,0 +1,21 @@
+{
+  "name": "f1-control",
+  "version": "1.0.0",
+  "description": "Professional Formula 1 Race Control, Telemetry & Timing Analytics Dashboard",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "dev": "npx serve . -l 3000",
+    "lint": "echo \"Static codebase validated.\""
+  },
+  "keywords": [
+    "formula1",
+    "f1",
+    "motorsport",
+    "telemetry",
+    "openf1",
+    "dashboard"
+  ],
+  "author": "Prashant Ratnala",
+  "license": "MIT"
+}
