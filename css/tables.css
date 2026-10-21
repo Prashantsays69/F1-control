@@ -1,0 +1,226 @@
+/* ==========================================================================
+   RACE CONTROL DATA TABLES
+   High-density professional telemetry & timing tables with sticky headers
+   ========================================================================== */
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-xs);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.data-table thead th {
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-default);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  user-select: none;
+}
+
+.data-table thead th.sortable {
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.data-table thead th.sortable:hover {
+  color: var(--text-primary);
+}
+
+.data-table thead th.text-right,
+.data-table tbody td.text-right {
+  text-align: right;
+}
+
+.data-table thead th.text-center,
+.data-table tbody td.text-center {
+  text-align: center;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.data-table tbody tr.active-row {
+  background-color: var(--bg-surface-active);
+}
+
+.data-table tbody td {
+  padding: 8px 12px;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+/* Position Column */
+.pos-cell {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  width: 32px;
+  text-align: center;
+}
+
+.pos-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.pos-badge.p1 {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.pos-badge.p2 {
+  background: rgba(209, 213, 219, 0.15);
+  color: #e5e7eb;
+  border: 1px solid rgba(209, 213, 219, 0.35);
+}
+
+.pos-badge.p3 {
+  background: rgba(217, 119, 6, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+/* Driver Identifier Cell */
+.driver-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.driver-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 20px;
+  text-align: right;
+}
+
+.driver-code-flag {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.driver-code {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.driver-full-name {
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+}
+
+/* Team Identifier Cell */
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+}
+
+/* Tabular Numeric Data */
+.timing-cell {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.timing-cell.best-lap {
+  color: var(--sector-purple);
+  font-weight: 700;
+}
+
+.gap-cell {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.gap-cell.leader {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Sector Cell Group */
+.sector-cell-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Pit Cell */
+.pit-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.pit-count {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Mini Standings Row */
+.standings-row-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--transition-fast);
+}
+
+.standings-row-compact:last-child {
+  border-bottom: none;
+}
+
+.standings-row-compact:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.standings-points {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+}

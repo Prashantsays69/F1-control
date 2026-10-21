@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="F1 // CONTROL is a professional Formula 1 race control telemetry, timing, and analytics platform.">
+  <meta name="theme-color" content="#0c0d10">
+  <title>F1 // CONTROL — Motorsport Telemetry & Race Control</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono for authentic timing typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Authentic Motorsport Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230c0d10'/%3E%3Cpath d='M6 10h12l-3 12H3z' fill='%23e10600'/%3E%3Cpath d='M20 10h9l-3 12h-9z' fill='%23f0f2f5'/%3E%3C/svg%3E">
+
+  <!-- Design System & Modular Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css?v=22">
+  <link rel="stylesheet" href="css/layout.css?v=22">
+  <link rel="stylesheet" href="css/components.css?v=22">
+  <link rel="stylesheet" href="css/tables.css?v=22">
+  <link rel="stylesheet" href="css/pages.css?v=22">
+</head>
+<body>
+  <div id="app-container">
+    
+    <!-- Sidebar: Section 4 of design.txt -->
+    <aside id="app-sidebar" aria-label="Main Navigation">
+      <div>
+        <div class="sidebar-header">
+          <div class="brand-row">
+            <div class="brand-f1-svg" title="Formula 1 Official Identity">
+              <svg width="38" height="15" viewBox="0 0 24 24" fill="#e10600">
+                <path d="M9.6 11.24h7.91L19.75 9H9.39c-2.85 0-3.62.34-5.17 1.81C2.71 12.3 0 15 0 15h3.38c.77-.75 2.2-2.13 2.85-2.75.92-.87 1.37-1.01 3.37-1.01zM20.39 9l-6 6H18l6-6h-3.61zm-3.25 2.61H9.88c-2.22 0-2.6.12-3.55 1.07C5.44 13.57 4 15 4 15h3.15l.75-.75c.49-.49.75-.55 1.78-.55h5.37l2.09-2.09z"/>
+              </svg>
+            </div>
+            <div class="brand-title"><span class="slash" style="color: var(--text-tertiary); margin: 0 4px;">//</span>CONTROL</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section-title">RACE OPERATIONS</div>
+          
+          <a href="#overview" class="nav-item active" data-route="overview" id="nav-overview">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </span>
+            <span>Overview</span>
+          </a>
+
+          <a href="#live-timing" class="nav-item" data-route="live-timing" id="nav-live-timing">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </span>
+            <span>Live Timing</span>
+            <span class="live-badge">LIVE</span>
+          </a>
+
+          <div class="nav-section-title">CHAMPIONSHIP</div>
+
+          <a href="#drivers" class="nav-item" data-route="drivers" id="nav-drivers">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <span>Drivers</span>
+          </a>
+
+          <a href="#constructors" class="nav-item" data-route="constructors" id="nav-constructors">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </span>
+            <span>Constructors</span>
+          </a>
+
+          <a href="#calendar" class="nav-item" data-route="calendar" id="nav-calendar">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </span>
+            <span>Calendar</span>
+          </a>
+
+          <a href="#circuits" class="nav-item" data-route="circuits" id="nav-circuits">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </span>
+            <span>Circuits</span>
+          </a>
+
+          <div class="nav-section-title">DATA ARCHIVE</div>
+
+          <a href="#results" class="nav-item" data-route="results" id="nav-results">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </span>
+            <span>Results</span>
+          </a>
+
+          <a href="#analytics" class="nav-item" data-route="analytics" id="nav-analytics">
+            <span class="nav-item-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </span>
+            <span>Analytics</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Bottom Season Selector & Controls -->
+      <div class="sidebar-footer">
+        <div class="season-selector-wrapper">
+          <label for="season-selector" class="technical-label" style="font-size: 10px;">FIA SEASON</label>
+          <select id="season-selector" class="control-select">
+            <option value="2026" selected>2026 SEASON</option>
+            <option value="2025">2025 SEASON</option>
+            <option value="2024">2024 SEASON</option>
+          </select>
+        </div>
+
+        <div class="sidebar-aux-buttons">
+          <a href="#settings" class="sidebar-btn" id="btn-settings" title="Application Settings">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Settings</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Viewport Area -->
+    <div id="app-main">
+      
+      <!-- Topbar: Section 4 of design.txt -->
+      <header id="app-topbar">
+        <div class="topbar-left">
+          <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open navigation menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="page-title-group">
+            <span class="current-page-title" id="current-page-title">OVERVIEW</span>
+            <span class="current-page-subtitle" id="current-page-subtitle">SEASON 2026</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Season select in topbar -->
+          <div class="topbar-season-picker">
+            <select id="topbar-season-select" class="control-select" style="padding: 4px 10px; font-size: 11px; height: 28px;">
+              <option value="2026" selected>2026 SEASON</option>
+              <option value="2025">2025 SEASON</option>
+              <option value="2024">2024 SEASON</option>
+            </select>
+          </div>
+
+          <!-- Session status & Data freshness (Honest Labeling) -->
+          <div class="system-status-chip font-mono" id="system-status-chip" title="Data connection and source">
+            <span style="color: var(--status-green); display: flex; align-items: center; gap: 4px;" id="system-status-indicator">
+              <span class="live-pulse-dot green" id="status-dot"></span>
+              <span class="sub-label" id="status-label">FIA ARCHIVE</span>
+            </span>
+            <span>·</span>
+            <span class="sub-label">SYNC</span>
+            <span class="data-clock font-mono" id="data-clock">14:15:00</span>
+          </div>
+
+          <div class="topbar-divider"></div>
+
+          <!-- Search icon button -->
+          <button class="topbar-icon-btn" id="topbar-search-btn" title="Search Telemetry & Archives (/ or Ctrl+K)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          <!-- User avatar initial button -->
+          <button class="user-avatar-btn" id="topbar-user-btn" title="Race Operations Profile">
+            PR
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Content Container -->
+      <main id="viewport-container" role="main">
+        <!-- Dynamically rendered via router.js -->
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Race Operations Profile Modal -->
+  <div id="operations-profile-modal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+    <div class="command-palette-card" style="max-width: 480px; padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-default); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="user-avatar-btn" style="width: 28px; height: 28px; font-size: 11px;">PR</div>
+          <span class="technical-label" id="profile-modal-title" style="font-size: 13px;">OPERATIONS PROFILE</span>
+        </div>
+        <button id="close-profile-modal" class="sidebar-btn" style="padding: 4px 8px; font-size: 11px;">ESC</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
+        <div class="settings-row" style="padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">
+          <span class="text-secondary">OPERATOR</span>
+          <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">Prashant Ratnala</span>
+        </div>
+        <div class="settings-row" style="padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">
+          <span class="text-secondary">SYSTEM ROLE</span>
+          <span class="panel-badge" style="background: rgba(225, 6, 0, 0.1); color: var(--f1-red);">CHIEF TELEMETRY ENGINEER</span>
+        </div>
+        <div class="settings-row" style="padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">
+          <span class="text-secondary">DATA ARCHIVES</span>
+          <span class="font-mono text-muted">Jolpica Ergast + OpenF1</span>
+        </div>
+        <div class="settings-row" style="padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">
+          <span class="text-secondary">SYSTEM LICENSE</span>
+          <span class="font-mono text-muted">FIA CONTROL // EDU-2026-PR</span>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end;">
+          <button id="profile-clear-cache-btn" class="filter-btn" style="font-size: 11px;">PURGE CACHE</button>
+          <button id="profile-done-btn" class="filter-btn active" style="font-size: 11px;">DONE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Policy Modal -->
+  <div id="privacy-modal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
+    <div class="command-palette-card" style="max-width: 600px; padding: 24px; max-height: 80vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-default); padding-bottom: 12px;">
+        <span class="technical-label" id="privacy-modal-title" style="font-size: 13px;">PRIVACY POLICY & DATA PRACTICES</span>
+        <button id="close-privacy-modal" class="sidebar-btn" style="padding: 4px 8px; font-size: 11px;">CLOSE</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 12px; line-height: 1.6; color: var(--text-secondary);">
+        <p><strong style="color: var(--text-primary);">1. Zero Personal Data Collection:</strong> F1 // CONTROL operates entirely client-side. We do not track users, log IP addresses, store cookies for advertising, or collect personally identifiable information (PII).</p>
+        <p><strong style="color: var(--text-primary);">2. External Telemetry Sources:</strong> Telemetry, timing, standings, and calendar records are requested directly by your browser from public, documented motorsport databases (Jolpica F1 API and OpenF1 API). No queries pass through proprietary intermediary servers.</p>
+        <p><strong style="color: var(--text-primary);">3. Local Storage:</strong> Preferences such as active FIA season, timezone display, and cached API responses are stored strictly in your browser’s local storage (`localStorage`) to minimize redundant network bandwidth. You may clear this cache at any time in Settings.</p>
+        <p><strong style="color: var(--text-primary);">4. Attribution:</strong> Designed and built by Prashant Ratnala as a professional motorsport data product.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms and Conditions Modal -->
+  <div id="terms-modal" class="modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+    <div class="command-palette-card" style="max-width: 600px; padding: 24px; max-height: 80vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-default); padding-bottom: 12px;">
+        <span class="technical-label" id="terms-modal-title" style="font-size: 13px;">TERMS OF SERVICE & DISCLAIMER</span>
+        <button id="close-terms-modal" class="sidebar-btn" style="padding: 4px 8px; font-size: 11px;">CLOSE</button>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 12px; line-height: 1.6; color: var(--text-secondary);">
+        <p><strong style="color: var(--text-primary);">1. Non-Commercial Motorsport Analytics:</strong> F1 // CONTROL is an independent motorsport telemetry and analytical platform built for professional research, engineering review, and educational demonstration.</p>
+        <p><strong style="color: var(--text-primary);">2. Trademark Disclaimer:</strong> Formula 1, F1, FORMULA ONE, FIA, and related logos and marks are registered trademarks of Formula One Licensing B.V. and the Fédération Internationale de l'Automobile. This application is unaffiliated with, and neither endorsed nor sponsored by, Formula One Group or FIA.</p>
+        <p><strong style="color: var(--text-primary);">3. Data Integrity & Verification:</strong> Timing, points, and session statistics represent official records retrieved from verified public APIs and verified historical archives. Simulated sessions are explicitly labeled as simulation/replay.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Application Script -->
+  <script src="js/bundle.js?v=23"></script>
+</body>
+</html>

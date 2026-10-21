@@ -1,0 +1,220 @@
+/* ==========================================================================
+   F1 // CONTROL DESIGN SYSTEM
+   Professional Motorsport Telemetry & Race Control Specification
+   Strict Anti-Slop Constraints: Flat solid surfaces, high data density,
+   semantic color only, tabular numbers, 4-8px radius, no glow/gradients.
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Foundation (Graphite, Charcoal, Slate) */
+  --bg-app: #0c0d10;
+  --bg-sidebar: #0f1115;
+  --bg-surface: #14171d;
+  --bg-surface-elevated: #1a1e26;
+  --bg-surface-active: #222731;
+  --bg-surface-hover: #1f232c;
+  
+  /* Borders */
+  --border-subtle: #20242e;
+  --border-default: #282e3b;
+  --border-strong: #384152;
+  --border-focus: #526079;
+
+  /* Typography Colors */
+  --text-primary: #f0f2f5;
+  --text-secondary: #9aa1b0;
+  --text-muted: #5f6777;
+  --text-inverse: #0c0d10;
+
+  /* Semantic Racing Colors */
+  --f1-red: #e10600;
+  --f1-red-dark: #b80500;
+  --status-green: #10b981;
+  --status-amber: #f59e0b;
+  --status-blue: #3b82f6;
+  --status-fastest: #38bdf8; /* Session overall fastest lap / sector */
+  --status-purple: #38bdf8; /* Retained as alias mapped to motorsport cyan */
+
+  /* Timing Specific */
+  --sector-yellow: #eab308;
+  --sector-green: #10b981;
+  --sector-fastest: #38bdf8;
+  --sector-purple: #38bdf8; /* Mapped to motorsport cyan (no purple/violet per design.txt) */
+  --flag-green: #10b981;
+  --flag-yellow: #eab308;
+  --flag-red: #e10600;
+  --flag-sc: #f97316;
+
+  /* Official Formula 1 Team Colors (Semantic Only) */
+  --team-ferrari: #e80020;
+  --team-redbull: #1e41ff;
+  --team-mclaren: #ff8000;
+  --team-mercedes: #00a19c;
+  --team-astonmartin: #229971;
+  --team-alpine: #0093cc;
+  --team-williams: #64c4ff;
+  --team-vcarb: #6692ff;
+  --team-sauber: #52e252;
+  --team-haas: #b6babd;
+
+  /* Tyre Compounds */
+  --tyre-soft: #e10600;
+  --tyre-medium: #facc15;
+  --tyre-hard: #f3f4f6;
+  --tyre-intermediate: #10b981;
+  --tyre-wet: #3b82f6;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  
+  /* Font Sizes */
+  --text-xs: 0.6875rem;    /* 11px */
+  --text-sm: 0.8125rem;    /* 13px */
+  --text-base: 0.875rem;   /* 14px */
+  --text-md: 1rem;         /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.375rem;     /* 22px */
+  --text-2xl: 1.75rem;     /* 28px */
+  --text-3xl: 2.25rem;     /* 36px */
+
+  /* Line Heights */
+  --lh-tight: 1.15;
+  --lh-normal: 1.45;
+  --lh-relaxed: 1.6;
+
+  /* Spacing Scale (Strict 4/8/12/16/24/32/48/64px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radii (Strict 4-8px, NO oversized bubbles) */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Motion (Fast & Precise: 120-180ms ease-out) */
+  --transition-fast: 120ms ease-out;
+  --transition-normal: 160ms ease-out;
+}
+
+/* Base Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Tabular Numbers for Data Density */
+.font-mono,
+.timing-data,
+.font-mono,
+.data-table,
+.lap-time,
+.points-val,
+.delta-val,
+.sector-val {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Compact Technical Headings & Labels */
+.technical-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.technical-subtext {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* Scrollbars - Technical Slim Minimal */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-xs);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Status Indicators */
+.live-pulse-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--f1-red);
+  margin-right: 6px;
+}
+
+.live-pulse-dot.green {
+  background-color: var(--status-green);
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-tag.f1-red {
+  background: rgba(225, 6, 0, 0.15);
+  border-color: rgba(225, 6, 0, 0.4);
+  color: #ff5e57;
+}
+
+.badge-tag.status-green {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.badge-tag.status-amber {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}

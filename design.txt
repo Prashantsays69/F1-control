@@ -1,0 +1,442 @@
+# F1 // CONTROL — DESIGN SYSTEM
+
+This file defines the permanent visual and UX rules for the F1 dashboard.
+
+Treat these as HARD constraints.
+
+==================================================
+1. DESIGN PHILOSOPHY
+==================================================
+
+The interface must feel:
+
+PREMIUM
+TECHNICAL
+EDITORIAL
+PRECISE
+DATA-RICH
+RESTRAINED
+MOTORSPORT-FIRST
+
+Premium must come from:
+- typography
+- spacing
+- hierarchy
+- composition
+- alignment
+- data presentation
+- restraint
+
+Never compensate for weak design with visual effects.
+
+==================================================
+2. ANTI-SLOP — ABSOLUTELY FORBIDDEN
+==================================================
+
+NO:
+- purple
+- violet
+- indigo
+- decorative gradients
+- gradient text
+- glowing effects
+- neon effects
+- glowing borders
+- blue ambient lighting
+- radial auras
+- decorative blur blobs
+- excessive glassmorphism
+- excessive shadows
+- huge rounded cards
+- excessive pill-shaped UI
+- random decorative shapes
+- cyberpunk styling
+- generic SaaS styling
+- generic AI dashboard styling
+- parallax
+- bounce animations
+- spring animations
+- dramatic page transitions
+- text-reveal animations
+- continuous floating animations
+
+Do not add effects merely because they are visually impressive.
+
+==================================================
+3. COLOUR SYSTEM
+==================================================
+
+Use a restrained dark motorsport palette.
+
+Background:
+- graphite / near-black neutral
+
+Surfaces:
+- dark neutral slate
+
+Borders:
+- subtle neutral gray
+
+Primary text:
+- off-white
+
+Secondary text:
+- muted gray
+
+Tertiary text:
+- subdued gray
+
+Semantic colours:
+
+RED
+F1 identity / racing emphasis / critical states
+
+GREEN
+success / positive / completed / live
+
+AMBER
+warning / caution
+
+BLUE
+informational states only
+
+TEAM COLOURS
+Only when representing driver/team identity.
+
+Colour must communicate information.
+Do not use colour purely as decoration.
+
+==================================================
+4. TYPOGRAPHY
+==================================================
+
+Prefer:
+- Inter
+- Geist
+- system-ui
+
+Use typography as a major visual element.
+
+Use:
+- strong numerical hierarchy
+- compact uppercase labels
+- restrained letter spacing
+- tabular/monospaced numbers where appropriate
+
+Numbers such as:
+
+01:42:18
++2.481
+1:31.204
+312 PTS
+
+should feel like professional motorsport timing graphics.
+
+Avoid oversized marketing-style typography.
+
+==================================================
+5. SPACING
+==================================================
+
+Use only the following spacing scale:
+
+4
+8
+12
+16
+24
+32
+48
+64px
+
+Maintain consistent spacing across:
+- sections
+- panels
+- tables
+- navigation
+- headers
+- grids
+
+Do not invent arbitrary spacing values.
+
+==================================================
+6. CORNER RADIUS
+==================================================
+
+Prefer:
+
+4px
+6px
+8px
+
+Use larger radii only when genuinely necessary.
+
+Do not make every component heavily rounded.
+
+==================================================
+7. LAYOUT
+==================================================
+
+Use deliberate alignment.
+
+Prefer:
+- left-aligned content grids
+- structured columns
+- strong vertical rhythm
+- asymmetric but intentional compositions
+- dense information layouts
+
+Do not center everything.
+
+Do not make every section identical in size.
+
+Avoid excessive empty space.
+
+Do not turn every piece of information into a separate card.
+
+Use borders and spacing to create hierarchy.
+
+==================================================
+8. COMPONENTS
+==================================================
+
+UI components should feel like professional motorsport software.
+
+Prefer:
+- subtle borders
+- flat surfaces
+- compact controls
+- dense tables
+- restrained status indicators
+- clear data hierarchy
+
+Avoid:
+- giant cards
+- decorative containers
+- excessive shadows
+- excessive pills
+- visual clutter
+
+==================================================
+9. DATA VISUALIZATION
+==================================================
+
+Charts must be functional.
+
+Use:
+- thin strokes
+- subtle grid lines
+- restrained labels
+- semantic colours
+- strong numerical hierarchy
+
+Never use:
+- gradient chart fills
+- glowing chart lines
+- unnecessary 3D charts
+- decorative chart effects
+
+Every chart should answer a useful question.
+
+==================================================
+10. MOTION
+==================================================
+
+Motion must be fast and utilitarian.
+
+Allowed:
+- hover state changes
+- colour transitions
+- border transitions
+- tooltips
+- tab state changes
+
+Target:
+120–180ms ease-out.
+
+Forbidden:
+- bounce
+- spring
+- parallax
+- dramatic transitions
+- animated backgrounds
+- continuous movement
+
+==================================================
+11. RESPONSIVENESS
+==================================================
+
+The layout must remain intentional across desktop, tablet and mobile.
+
+Never solve responsiveness by:
+- shrinking everything excessively
+- clipping content
+- hiding overflow to conceal layout problems
+
+Desktop should remain the primary experience.
+
+
+==================================================
+13. BRAND & ASSET QUALITY
+==================================================
+
+Use authentic, high-quality motorsport assets where available.
+
+Prefer:
+- official/authoritative F1 branding assets
+- authentic current team logos
+- authentic current driver imagery
+- accurate circuit illustrations
+- relevant Grand Prix imagery
+
+Never use:
+- fake AI-generated driver portraits
+- distorted or stretched logos
+- random stock imagery
+- inconsistent image styles
+- placeholder imagery presented as final assets
+
+All images must:
+- preserve aspect ratio
+- use intentional cropping
+- align to the layout grid
+- maintain consistent sizing within related components
+- remain visually sharp at their rendered size
+
+When an asset is unavailable, use a restrained fallback rather than inventing a visually inconsistent replacement.
+
+==================================================
+14. IMAGE COMPOSITION
+==================================================
+
+Images are part of the information hierarchy, not decoration.
+
+Use imagery deliberately for:
+- Grand Prix hero
+- drivers
+- teams
+- circuits
+- race results
+
+Never insert an image merely to fill empty space.
+
+Hero imagery should support the content and maintain readable typography.
+
+Driver and team imagery should prioritize recognition and consistency.
+
+Avoid arbitrary crops, stretched images, inconsistent aspect ratios, and random image dimensions.
+
+==================================================
+15. EDITORIAL COMPOSITION
+==================================================
+
+The dashboard should feel composed like professional motorsport software and an editorial data product.
+
+Do not make every panel equal in size or visual weight.
+
+Create hierarchy through:
+- scale
+- position
+- typography
+- density
+- imagery
+- whitespace
+
+Primary information should visually dominate.
+Secondary information should support it.
+
+Avoid the "grid of identical cards" appearance.
+
+Use asymmetric layouts only when they are deliberate and improve information hierarchy.
+
+==================================================
+16. VISUAL REFERENCE RULE
+==================================================
+
+When a visual reference image is provided, use it to understand:
+- composition
+- hierarchy
+- proportions
+- information density
+- imagery
+- alignment
+- visual rhythm
+- overall level of polish
+
+Do not copy the reference pixel-for-pixel.
+
+Do not sacrifice this design system to imitate it.
+
+The goal is to achieve the same level of design intentionality and polish while maintaining this project's own information architecture and branding.
+
+==================================================
+17. INTERACTION VISUAL LANGUAGE
+==================================================
+
+Interactive elements must look interactive without becoming decorative.
+
+Use subtle:
+- hover states
+- focus states
+- selected states
+- active navigation states
+- cursor affordances
+
+Do not use exaggerated transforms, glowing effects, or large colour changes to communicate interaction.
+
+A component that looks interactive must have meaningful functionality.
+
+Avoid styling static content like a button unless it actually performs an action.
+
+==================================================
+18. ASSET FAILURE & FALLBACKS
+==================================================
+
+External assets may fail to load.
+
+Provide restrained fallbacks for:
+- driver images
+- team logos
+- circuit imagery
+- Grand Prix imagery
+- branding assets
+
+Fallbacks must preserve:
+- layout dimensions
+- alignment
+- hierarchy
+- visual consistency
+
+Never allow a broken image to create layout shifts, stretched containers, or broken grids.
+
+==================================================
+12. FINAL QUALITY TEST
+==================================================
+
+Before considering any UI complete, ask:
+
+Does it look premium without gradients or glow?
+
+Does the layout feel intentionally designed?
+
+Is every colour serving a purpose?
+
+Is the hierarchy immediately understandable?
+
+Does typography carry visual weight?
+
+Does it feel like motorsport software?
+
+Would this look credible in a serious developer portfolio?
+
+If removing decorative effects makes the design worse, the underlying design is not strong enough.
+
+==================================================
+
+DEFAULT RULE:
+
+When uncertain, choose the more restrained, functional and intentional solution.
+
+Prefer authentic assets, intentional composition, and meaningful hierarchy over decorative effects or invented visuals.
+
+Never revert to the generic internet/AI design median.
