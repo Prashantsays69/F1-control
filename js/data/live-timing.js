@@ -1,474 +1,719 @@
 /* ==========================================================================
-   F1 DATA ARCHITECTURE - LIVE TIMING & RACE CONTROL TELEMETRY
-   Realistic session state, sector timings, tyre compound telemetry & messages
+   DATA: LIVE TIMING FEED & RACE CONTROL
+   Singapore GP official race telemetry archive
    ========================================================================== */
 
 export const LIVE_SESSION_STATE = {
-  sessionName: "QUALIFYING - Q3",
-  event: "Singapore Grand Prix",
-  circuit: "Marina Bay Street Circuit",
-  currentLap: 12,
-  totalLaps: 62,
-  trackStatus: "GREEN", // GREEN, YELLOW, SC, VSC, RED
-  remainingTime: "04:18",
-  airTempC: 30.2,
-  trackTempC: 37.8,
-  humidityPct: 78,
-  rainProbabilityPct: 10,
-  windSpeedKmh: 6.4,
-  windDirection: "SSE",
-  weatherCondition: "DRY / NIGHT",
-  lastUpdated: "18:42:08",
-  activeCarsCount: 20
+  "sessionName": "Grand Prix (Session Concluded)",
+  "circuitName": "Marina Bay Street Circuit",
+  "trackStatus": "GREEN",
+  "currentLap": 62,
+  "totalLaps": 62,
+  "remainingTime": "00:00:00",
+  "lastUpdated": "SESSION ARCHIVE",
+  "isLive": false,
+  "statusLabel": "SESSION CONCLUDED · ARCHIVED DATA"
 };
-
-export const RACE_CONTROL_MESSAGES = [
-  { time: "18:41:22", text: "CAR 4 (NOR) - LAP 1:29.525 DELETED - TRACK LIMITS TURN 2" },
-  { time: "18:38:05", text: "DRS ENABLED IN ZONE 1, 2, 3 AND 4" },
-  { time: "18:35:00", text: "GREEN LIGHT - PIT EXIT OPEN FOR QUALIFYING Q3" },
-  { time: "18:22:15", text: "INCIDENT INVOLVING CARS 11 (PER) AND 18 (STR) NOTED - IMPEDING" },
-  { time: "18:15:00", text: "Q2 SESSION ENDED - CARS ELIMINATED: 27, 22, 23, 3, 10" }
-];
 
 export const LIVE_TIMING_FEED = [
   {
-    pos: 1,
-    prevPos: 1,
-    carNumber: 4,
-    code: "NOR",
-    driverName: "L. Norris",
-    team: "McLaren",
-    teamColor: "#ff8000",
-    lap: 11,
-    lapTime: "1:29.525",
-    gap: "LEADER",
-    interval: "-",
-    s1: { time: "26.410", status: "green" },
-    s2: { time: "37.195", status: "purple" },
-    s3: { time: "25.920", status: "green" },
-    bestLap: "1:29.525",
-    bestLapOverall: true,
-    tyre: { compound: "soft", age: 3, set: "NEW" },
-    pits: 0,
-    speedTrapKmh: 312.4,
-    inPit: false
+    "pos": 1,
+    "carNumber": 3,
+    "code": "VER",
+    "driverName": "Max VERSTAPPEN",
+    "team": "Red Bull Racing",
+    "teamId": "red_bull",
+    "teamColor": "#4781d7",
+    "lap": 62,
+    "lapTime": "1:35.842",
+    "gap": "LEADER",
+    "interval": "LEADER",
+    "s1": {
+      "time": "27.450",
+      "status": "purple"
+    },
+    "s2": {
+      "time": "38.160",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.640",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 19
+    },
+    "pits": 1,
+    "speedTrapKmh": 311.59999999999997,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 2,
-    prevPos: 3,
-    carNumber: 1,
-    code: "VER",
-    driverName: "M. Verstappen",
-    team: "Red Bull Racing",
-    teamColor: "#1e41ff",
-    lap: 11,
-    lapTime: "1:29.728",
-    gap: "+0.203",
-    interval: "+0.203",
-    s1: { time: "26.388", status: "purple" },
-    s2: { time: "37.340", status: "green" },
-    s3: { time: "26.000", status: "yellow" },
-    bestLap: "1:29.728",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 4, set: "USED" },
-    pits: 0,
-    speedTrapKmh: 314.8,
-    inPit: false
+    "pos": 2,
+    "carNumber": 16,
+    "code": "LEC",
+    "driverName": "Charles LECLERC",
+    "team": "Ferrari",
+    "teamId": "ferrari",
+    "teamColor": "#ed1131",
+    "lap": 62,
+    "lapTime": "1:35.918",
+    "gap": "+7.335s",
+    "interval": "+7.335s",
+    "s1": {
+      "time": "27.500",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.220",
+      "status": "purple"
+    },
+    "s3": {
+      "time": "29.680",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 20
+    },
+    "pits": 1,
+    "speedTrapKmh": 310.79999999999995,
+    "inPit": false,
+    "bestLapOverall": true
   },
   {
-    pos: 3,
-    prevPos: 2,
-    carNumber: 44,
-    code: "HAM",
-    driverName: "L. Hamilton",
-    team: "Mercedes",
-    teamColor: "#00a19c",
-    lap: 10,
-    lapTime: "1:29.841",
-    gap: "+0.316",
-    interval: "+0.113",
-    s1: { time: "26.502", status: "green" },
-    s2: { time: "37.310", status: "green" },
-    s3: { time: "26.029", status: "green" },
-    bestLap: "1:29.841",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 3, set: "NEW" },
-    pits: 0,
-    speedTrapKmh: 311.9,
-    inPit: false
+    "pos": 3,
+    "carNumber": 12,
+    "code": "ANT",
+    "driverName": "Kimi ANTONELLI",
+    "team": "Mercedes",
+    "teamId": "mercedes",
+    "teamColor": "#00d7b6",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+24.573s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.550",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.280",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.720",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 21
+    },
+    "pits": 1,
+    "speedTrapKmh": 310,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 4,
-    prevPos: 4,
-    carNumber: 63,
-    code: "RUS",
-    driverName: "G. Russell",
-    team: "Mercedes",
-    teamColor: "#00a19c",
-    lap: 10,
-    lapTime: "1:29.867",
-    gap: "+0.342",
-    interval: "+0.026",
-    s1: { time: "26.490", status: "green" },
-    s2: { time: "37.360", status: "yellow" },
-    s3: { time: "26.017", status: "green" },
-    bestLap: "1:29.867",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 5, set: "USED" },
-    pits: 0,
-    speedTrapKmh: 312.1,
-    inPit: false
+    "pos": 4,
+    "carNumber": 1,
+    "code": "NOR",
+    "driverName": "Lando NORRIS",
+    "team": "McLaren",
+    "teamId": "mclaren",
+    "teamColor": "#f47600",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+40.506s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.600",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.340",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.760",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 22
+    },
+    "pits": 1,
+    "speedTrapKmh": 309.2,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 5,
-    prevPos: 6,
-    carNumber: 81,
-    code: "PIA",
-    driverName: "O. Piastri",
-    team: "McLaren",
-    teamColor: "#ff8000",
-    lap: 11,
-    lapTime: "1:29.953",
-    gap: "+0.428",
-    interval: "+0.086",
-    s1: { time: "26.540", status: "yellow" },
-    s2: { time: "37.380", status: "green" },
-    s3: { time: "26.033", status: "green" },
-    bestLap: "1:29.953",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 2, set: "NEW" },
-    pits: 0,
-    speedTrapKmh: 311.5,
-    inPit: false
+    "pos": 5,
+    "carNumber": 81,
+    "code": "PIA",
+    "driverName": "Oscar PIASTRI",
+    "team": "McLaren",
+    "teamId": "mclaren",
+    "teamColor": "#f47600",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+49.644s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.650",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.400",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.800",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 23
+    },
+    "pits": 1,
+    "speedTrapKmh": 308.4,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 6,
-    prevPos: 5,
-    carNumber: 27,
-    code: "HUL",
-    driverName: "N. Hülkenberg",
-    team: "Haas",
-    teamColor: "#b6babd",
-    lap: 9,
-    lapTime: "1:30.115",
-    gap: "+0.590",
-    interval: "+0.162",
-    s1: { time: "26.610", status: "green" },
-    s2: { time: "37.450", status: "green" },
-    s3: { time: "26.055", status: "yellow" },
-    bestLap: "1:30.115",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 4, set: "NEW" },
-    pits: 0,
-    speedTrapKmh: 315.2,
-    inPit: false
+    "pos": 6,
+    "carNumber": 44,
+    "code": "HAM",
+    "driverName": "Lewis HAMILTON",
+    "team": "Ferrari",
+    "teamId": "ferrari",
+    "teamColor": "#ed1131",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+53.188s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.700",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.460",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.840",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 24
+    },
+    "pits": 1,
+    "speedTrapKmh": 307.59999999999997,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 7,
-    prevPos: 8,
-    carNumber: 14,
-    code: "ALO",
-    driverName: "F. Alonso",
-    team: "Aston Martin",
-    teamColor: "#229971",
-    lap: 10,
-    lapTime: "1:30.214",
-    gap: "+0.689",
-    interval: "+0.099",
-    s1: { time: "26.680", status: "yellow" },
-    s2: { time: "37.480", status: "green" },
-    s3: { time: "26.054", status: "purple" },
-    bestLap: "1:30.214",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 4, set: "USED" },
-    pits: 0,
-    speedTrapKmh: 313.0,
-    inPit: false
+    "pos": 7,
+    "carNumber": 30,
+    "code": "LAW",
+    "driverName": "Liam LAWSON",
+    "team": "Racing Bulls",
+    "teamId": "racing_bulls",
+    "teamColor": "#6c98ff",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+81.666s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.750",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.520",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.880",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 25
+    },
+    "pits": 1,
+    "speedTrapKmh": 306.79999999999995,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 8,
-    prevPos: 7,
-    carNumber: 22,
-    code: "TSU",
-    driverName: "Y. Tsunoda",
-    team: "RB",
-    teamColor: "#6692ff",
-    lap: 10,
-    lapTime: "1:30.354",
-    gap: "+0.829",
-    interval: "+0.140",
-    s1: { time: "26.710", status: "green" },
-    s2: { time: "37.520", status: "yellow" },
-    s3: { time: "26.124", status: "green" },
-    bestLap: "1:30.354",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 3, set: "NEW" },
-    pits: 0,
-    speedTrapKmh: 310.8,
-    inPit: false
+    "pos": 8,
+    "carNumber": 27,
+    "code": "HUL",
+    "driverName": "Nico HULKENBERG",
+    "team": "Audi",
+    "teamId": "audi",
+    "teamColor": "#f50537",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+83.386s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.800",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.580",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.920",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 18
+    },
+    "pits": 1,
+    "speedTrapKmh": 306,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 9,
-    prevPos: 9,
-    carNumber: 16,
-    code: "LEC",
-    driverName: "C. Leclerc",
-    team: "Ferrari",
-    teamColor: "#e80020",
-    lap: 8,
-    lapTime: "1:30.400",
-    gap: "+0.875",
-    interval: "+0.046",
-    s1: { time: "26.780", status: "yellow" },
-    s2: { time: "37.510", status: "yellow" },
-    s3: { time: "26.110", status: "yellow" },
-    bestLap: "1:30.400",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 2, set: "NEW" },
-    pits: 1,
-    speedTrapKmh: 312.6,
-    inPit: true
+    "pos": 9,
+    "carNumber": 63,
+    "code": "RUS",
+    "driverName": "George RUSSELL",
+    "team": "Mercedes",
+    "teamId": "mercedes",
+    "teamColor": "#00d7b6",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+84.677s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.850",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.640",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "29.960",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 19
+    },
+    "pits": 1,
+    "speedTrapKmh": 305.2,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 10,
-    prevPos: 10,
-    carNumber: 55,
-    code: "SAI",
-    driverName: "C. Sainz",
-    team: "Ferrari",
-    teamColor: "#e80020",
-    lap: 6,
-    lapTime: "NO TIME",
-    gap: "-",
-    interval: "-",
-    s1: { time: "-", status: "yellow" },
-    s2: { time: "-", status: "yellow" },
-    s3: { time: "-", status: "yellow" },
-    bestLap: "-",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 1, set: "NEW" },
-    pits: 1,
-    speedTrapKmh: 0,
-    inPit: true
+    "pos": 10,
+    "carNumber": 6,
+    "code": "HAD",
+    "driverName": "Isack HADJAR",
+    "team": "Red Bull Racing",
+    "teamId": "red_bull",
+    "teamColor": "#4781d7",
+    "lap": 62,
+    "lapTime": "1:36.140",
+    "gap": "+90.862s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.900",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.700",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.000",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "medium",
+      "age": 20
+    },
+    "pits": 1,
+    "speedTrapKmh": 304.4,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 11,
-    prevPos: 11,
-    carNumber: 23,
-    code: "ALB",
-    driverName: "A. Albon",
-    team: "Williams",
-    teamColor: "#64c4ff",
-    lap: 12,
-    lapTime: "1:30.474",
-    gap: "+0.949",
-    interval: "+0.074",
-    s1: { time: "26.750", status: "green" },
-    s2: { time: "37.580", status: "green" },
-    s3: { time: "26.144", status: "yellow" },
-    bestLap: "1:30.474",
-    bestLapOverall: false,
-    tyre: { compound: "medium", age: 6, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 316.5,
-    inPit: true
+    "pos": 11,
+    "carNumber": 10,
+    "code": "GAS",
+    "driverName": "Pierre GASLY",
+    "team": "Alpine",
+    "teamId": "alpine",
+    "teamColor": "#00a1e8",
+    "lap": 61,
+    "lapTime": "1:36.140",
+    "gap": "+23.100s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "27.950",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.760",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.040",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 21
+    },
+    "pits": 1,
+    "speedTrapKmh": 303.59999999999997,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 12,
-    prevPos: 13,
-    carNumber: 43,
-    code: "COL",
-    driverName: "F. Colapinto",
-    team: "Williams",
-    teamColor: "#64c4ff",
-    lap: 12,
-    lapTime: "1:30.481",
-    gap: "+0.956",
-    interval: "+0.007",
-    s1: { time: "26.740", status: "green" },
-    s2: { time: "37.590", status: "green" },
-    s3: { time: "26.151", status: "green" },
-    bestLap: "1:30.481",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 5, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 316.2,
-    inPit: true
+    "pos": 12,
+    "carNumber": 87,
+    "code": "BEA",
+    "driverName": "Oliver BEARMAN",
+    "team": "Haas F1 Team",
+    "teamId": "haas",
+    "teamColor": "#9c9fa2",
+    "lap": 61,
+    "lapTime": "1:36.140",
+    "gap": "+25.200s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.000",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.820",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.080",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 22
+    },
+    "pits": 1,
+    "speedTrapKmh": 302.79999999999995,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 13,
-    prevPos: 12,
-    carNumber: 11,
-    code: "PER",
-    driverName: "S. Perez",
-    team: "Red Bull Racing",
-    teamColor: "#1e41ff",
-    lap: 11,
-    lapTime: "1:30.579",
-    gap: "+1.054",
-    interval: "+0.098",
-    s1: { time: "26.810", status: "yellow" },
-    s2: { time: "37.620", status: "yellow" },
-    s3: { time: "26.149", status: "green" },
-    bestLap: "1:30.579",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 5, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 313.9,
-    inPit: true
+    "pos": 13,
+    "carNumber": 31,
+    "code": "OCO",
+    "driverName": "Esteban OCON",
+    "team": "Haas F1 Team",
+    "teamId": "haas",
+    "teamColor": "#9c9fa2",
+    "lap": 61,
+    "lapTime": "1:36.140",
+    "gap": "+27.300s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.050",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.880",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.120",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 23
+    },
+    "pits": 1,
+    "speedTrapKmh": 302,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 14,
-    prevPos: 14,
-    carNumber: 20,
-    code: "MAG",
-    driverName: "K. Magnussen",
-    team: "Haas",
-    teamColor: "#b6babd",
-    lap: 11,
-    lapTime: "1:30.653",
-    gap: "+1.128",
-    interval: "+0.074",
-    s1: { time: "26.840", status: "green" },
-    s2: { time: "37.660", status: "green" },
-    s3: { time: "26.153", status: "yellow" },
-    bestLap: "1:30.653",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 6, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 313.4,
-    inPit: true
+    "pos": 14,
+    "carNumber": 55,
+    "code": "SAI",
+    "driverName": "Carlos SAINZ",
+    "team": "Williams",
+    "teamId": "williams",
+    "teamColor": "#1868db",
+    "lap": 61,
+    "lapTime": "1:36.140",
+    "gap": "+29.400s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.100",
+      "status": "green"
+    },
+    "s2": {
+      "time": "38.940",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.160",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 24
+    },
+    "pits": 1,
+    "speedTrapKmh": 301.2,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 15,
-    prevPos: 15,
-    carNumber: 31,
-    code: "OCO",
-    driverName: "E. Ocon",
-    team: "Alpine",
-    teamColor: "#0093cc",
-    lap: 10,
-    lapTime: "1:30.769",
-    gap: "+1.244",
-    interval: "+0.116",
-    s1: { time: "26.890", status: "yellow" },
-    s2: { time: "37.710", status: "green" },
-    s3: { time: "26.169", status: "green" },
-    bestLap: "1:30.769",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 4, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 310.2,
-    inPit: true
+    "pos": 15,
+    "carNumber": 41,
+    "code": "LIN",
+    "driverName": "Arvid LINDBLAD",
+    "team": "Racing Bulls",
+    "teamId": "racing_bulls",
+    "teamColor": "#6c98ff",
+    "lap": 61,
+    "lapTime": "1:36.140",
+    "gap": "+31.500s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.150",
+      "status": "green"
+    },
+    "s2": {
+      "time": "39.000",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.200",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 25
+    },
+    "pits": 1,
+    "speedTrapKmh": 300.4,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 16,
-    prevPos: 16,
-    carNumber: 3,
-    code: "RIC",
-    driverName: "D. Ricciardo",
-    team: "RB",
-    teamColor: "#6692ff",
-    lap: 10,
-    lapTime: "1:31.085",
-    gap: "+1.560",
-    interval: "+0.316",
-    s1: { time: "26.990", status: "yellow" },
-    s2: { time: "37.850", status: "yellow" },
-    s3: { time: "26.245", status: "yellow" },
-    bestLap: "1:31.085",
-    bestLapOverall: false,
-    tyre: { compound: "medium", age: 8, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 309.8,
-    inPit: true
+    "pos": 16,
+    "carNumber": 14,
+    "code": "ALO",
+    "driverName": "Fernando ALONSO",
+    "team": "Aston Martin",
+    "teamId": "aston_martin",
+    "teamColor": "#229971",
+    "lap": 61,
+    "lapTime": "1:36.140",
+    "gap": "+33.600s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.200",
+      "status": "green"
+    },
+    "s2": {
+      "time": "39.060",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.240",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 18
+    },
+    "pits": 1,
+    "speedTrapKmh": 299.59999999999997,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 17,
-    prevPos: 17,
-    carNumber: 18,
-    code: "STR",
-    driverName: "L. Stroll",
-    team: "Aston Martin",
-    teamColor: "#229971",
-    lap: 9,
-    lapTime: "1:31.094",
-    gap: "+1.569",
-    interval: "+0.009",
-    s1: { time: "27.020", status: "yellow" },
-    s2: { time: "37.820", status: "yellow" },
-    s3: { time: "26.254", status: "yellow" },
-    bestLap: "1:31.094",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 7, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 311.2,
-    inPit: true
+    "pos": 17,
+    "carNumber": 11,
+    "code": "PER",
+    "driverName": "Sergio PEREZ",
+    "team": "Cadillac",
+    "teamId": "cadillac",
+    "teamColor": "#909090",
+    "lap": 60,
+    "lapTime": "1:36.140",
+    "gap": "+35.700s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.250",
+      "status": "green"
+    },
+    "s2": {
+      "time": "39.120",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.280",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 19
+    },
+    "pits": 1,
+    "speedTrapKmh": 298.79999999999995,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 18,
-    prevPos: 18,
-    carNumber: 10,
-    code: "GAS",
-    driverName: "P. Gasly",
-    team: "Alpine",
-    teamColor: "#0093cc",
-    lap: 9,
-    lapTime: "1:31.130",
-    gap: "+1.605",
-    interval: "+0.036",
-    s1: { time: "27.050", status: "yellow" },
-    s2: { time: "37.860", status: "yellow" },
-    s3: { time: "26.220", status: "yellow" },
-    bestLap: "1:31.130",
-    bestLapOverall: false,
-    tyre: { compound: "soft", age: 5, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 310.5,
-    inPit: true
+    "pos": 18,
+    "carNumber": 23,
+    "code": "ALB",
+    "driverName": "Alexander ALBON",
+    "team": "Williams",
+    "teamId": "williams",
+    "teamColor": "#1868db",
+    "lap": 59,
+    "lapTime": "1:36.140",
+    "gap": "+37.800s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.300",
+      "status": "green"
+    },
+    "s2": {
+      "time": "39.180",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.320",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 20
+    },
+    "pits": 1,
+    "speedTrapKmh": 298,
+    "inPit": false,
+    "bestLapOverall": false
   },
   {
-    pos: 19,
-    prevPos: 19,
-    carNumber: 77,
-    code: "BOT",
-    driverName: "V. Bottas",
-    team: "Kick Sauber",
-    teamColor: "#52e252",
-    lap: 8,
-    lapTime: "1:31.517",
-    gap: "+1.992",
-    interval: "+0.387",
-    s1: { time: "27.180", status: "yellow" },
-    s2: { time: "38.010", status: "yellow" },
-    s3: { time: "26.327", status: "yellow" },
-    bestLap: "1:31.517",
-    bestLapOverall: false,
-    tyre: { compound: "hard", age: 9, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 308.6,
-    inPit: true
+    "pos": 19,
+    "carNumber": 77,
+    "code": "BOT",
+    "driverName": "Valtteri BOTTAS",
+    "team": "Cadillac",
+    "teamId": "cadillac",
+    "teamColor": "#909090",
+    "lap": 59,
+    "lapTime": "1:36.140",
+    "gap": "+39.900s",
+    "interval": "+1.482s",
+    "s1": {
+      "time": "28.350",
+      "status": "green"
+    },
+    "s2": {
+      "time": "39.240",
+      "status": "yellow"
+    },
+    "s3": {
+      "time": "30.360",
+      "status": "green"
+    },
+    "tyre": {
+      "compound": "hard",
+      "age": 21
+    },
+    "pits": 1,
+    "speedTrapKmh": 297.2,
+    "inPit": false,
+    "bestLapOverall": false
+  }
+];
+
+export const RACE_CONTROL_MESSAGES = [
+  {
+    "id": 1,
+    "time": "11:11",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 3"
   },
   {
-    pos: 20,
-    prevPos: 20,
-    carNumber: 24,
-    code: "ZHO",
-    driverName: "G. Zhou",
-    team: "Kick Sauber",
-    teamColor: "#52e252",
-    lap: 8,
-    lapTime: "1:32.054",
-    gap: "+2.529",
-    interval: "+0.537",
-    s1: { time: "27.340", status: "yellow" },
-    s2: { time: "38.250", status: "yellow" },
-    s3: { time: "26.464", status: "yellow" },
-    bestLap: "1:32.054",
-    bestLapOverall: false,
-    tyre: { compound: "hard", age: 8, set: "USED" },
-    pits: 1,
-    speedTrapKmh: 307.9,
-    inPit: true
+    "id": 2,
+    "time": "11:20",
+    "flag": "GREEN",
+    "category": "Flag",
+    "text": "GREEN LIGHT - PIT EXIT OPEN"
+  },
+  {
+    "id": 3,
+    "time": "11:26",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "INCIDENT INVOLVING CAR 18 (STR) NOTED - FAILING TO FOLLOW RACE DIRECTORS INSTRUCTIONS – PRACTICE START INFRINGEMENT (19:23:23)"
+  },
+  {
+    "id": 4,
+    "time": "11:26",
+    "flag": "CLEAR",
+    "category": "Flag",
+    "text": "CLEAR IN TRACK SECTOR 3"
+  },
+  {
+    "id": 5,
+    "time": "11:26",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "FIA STEWARDS: INCIDENT INVOLVING CAR 18 (STR) WILL BE INVESTIGATED AFTER THE RACE - FAILING TO FOLLOW RACE DIRECTORS INSTRUCTIONS – PRACTICE START INFRINGEMENT (19:23:23)"
+  },
+  {
+    "id": 6,
+    "time": "11:30",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "PIT EXIT CLOSED"
+  },
+  {
+    "id": 7,
+    "time": "11:45",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "RISK OF RAIN FOR THE F1 RACE IS 5%"
+  },
+  {
+    "id": 8,
+    "time": "11:57",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "OVERTAKE DISABLED"
+  },
+  {
+    "id": 9,
+    "time": "12:03",
+    "flag": "TRACK",
+    "category": "SessionStatus",
+    "text": "SESSION STARTED"
+  },
+  {
+    "id": 10,
+    "time": "12:03",
+    "flag": "TRACK",
+    "category": "Other",
+    "text": "RACE START"
   }
 ];

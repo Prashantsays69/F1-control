@@ -3,3 +3,11 @@ Thumbs.db
 node_modules/
 .vscode/
 *.log
+scratch_*.json
+generated_data.json
+test_gen.js
+build_repair.js
+generate_repaired_bundle.js
+build_data_module.js
+sync_modular_data.js
+
