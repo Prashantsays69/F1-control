@@ -1,9 +1,6 @@
 /* ==========================================================================
    VIEW: OVERVIEW - F1 SEASON COMMAND DASHBOARD
-   Matches reference visual direction:
-   Row 1: Next GP Hero banner (Singapore night background + Next session box)
-   Row 2 (3 Columns): Driver Championship (Top 5) | Constructor Championship (Top 5) | Circuit Info (3 sectors SVG + stats)
-   Row 3 (2 Columns): Left (Live Timing + Recent Race) | Right (Weather + Session Schedule + Progression)
+   Race operations, next Grand Prix dynamic hero, and championship standings
    ========================================================================== */
 
 import { dataService } from '../services/data-service.js';
@@ -11,90 +8,104 @@ import { initHeaderCountdown } from '../components/race-control-header.js';
 
 function getTeamIconSvg(teamName) {
   const t = (teamName || '').toLowerCase();
-  if (t.includes('red bull')) {
-    return `<svg class="team-logo-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#1e41ff"/><circle cx="12" cy="12" r="6" fill="#e10600"/><circle cx="12" cy="12" r="3" fill="#fadb14"/></svg>`;
-  } else if (t.includes('mclaren')) {
-    return `<svg class="team-logo-icon" viewBox="0 0 24 24"><path d="M4 17C10 7 19 6 20 6C18 10 13 14 4 17Z" fill="#ff8000"/></svg>`;
+  if (t.includes('mclaren')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="McLaren"><path d="M4.5 17.5C11 7 19.5 6 20.5 6c-2 4-7.5 8.5-16 11.5z" fill="#f47600"/></svg>`;
   } else if (t.includes('ferrari')) {
-    return `<svg class="team-logo-icon" viewBox="0 0 24 24"><path d="M12 2L5 5v7c0 5 4 8 7 10 3-2 7-5 7-10V5l-7-3z" fill="#fadb14"/><circle cx="12" cy="11" r="3" fill="#000"/></svg>`;
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Ferrari"><path d="M12 2l-7 3v6.5c0 5 3.5 8.5 7 10.5 3.5-2 7-5.5 7-10.5V5l-7-3z" fill="#fadb14"/><circle cx="12" cy="11.5" r="2.2" fill="#fff"/></svg>`;
   } else if (t.includes('mercedes')) {
-    return `<svg class="team-logo-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#00d2be" stroke-width="1.8" fill="none"/><line x1="12" y1="3" x2="12" y2="12" stroke="#00d2be" stroke-width="1.8"/><line x1="12" y1="12" x2="4.2" y2="16.5" stroke="#00d2be" stroke-width="1.8"/><line x1="12" y1="12" x2="19.8" y2="16.5" stroke="#00d2be" stroke-width="1.8"/></svg>`;
-  } else if (t.includes('aston')) {
-    return `<svg class="team-logo-icon" viewBox="0 0 24 24"><path d="M2 13c5-3 15-3 20 0-4-3-16-3-20 0z" fill="#229971"/><path d="M6 15c4-2 8-2 12 0-3-2-9-2-12 0z" fill="#cedc00"/></svg>`;
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Mercedes"><circle cx="12" cy="12" r="9.5" stroke="#00d7b6" stroke-width="1.8" fill="none"/><path d="M12 2.5v9.5m0 0l-8.2 4.8m8.2-4.8l8.2 4.8" stroke="#00d7b6" stroke-width="1.8"/></svg>`;
+  } else if (t.includes('red bull')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Red Bull"><circle cx="12" cy="12" r="10" fill="#1b2444"/><circle cx="12" cy="12" r="4.5" fill="#fadb14"/></svg>`;
+  } else if (t.includes('racing bulls') || t.includes('rb')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Racing Bulls"><circle cx="12" cy="12" r="9" fill="#162238" stroke="#6c98ff" stroke-width="1.5"/></svg>`;
+  } else if (t.includes('alpine')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Alpine"><path d="M12 3L4 20h3.5l1.8-4h5.4l1.8 4H20L12 3z" fill="#00a1e8"/></svg>`;
+  } else if (t.includes('williams')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Williams"><path d="M4 4h3l3.2 12.5L13.5 7h2l3.3 9.5L22 4h-3l-2.2 7.5L14.5 4h-3L9.2 11.5 7 4H4z" fill="#1868db"/></svg>`;
+  } else if (t.includes('haas')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Haas"><circle cx="12" cy="12" r="9.5" fill="#1e2023" stroke="#e10600" stroke-width="1.5"/></svg>`;
+  } else if (t.includes('audi')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Audi"><circle cx="7" cy="12" r="4.2" stroke="#f50537" stroke-width="1.4" fill="none"/><circle cx="10.3" cy="12" r="4.2" stroke="#f50537" stroke-width="1.4" fill="none"/></svg>`;
+  } else if (t.includes('cadillac')) {
+    return `<svg class="team-logo-icon" viewBox="0 0 24 24" title="Cadillac"><path d="M4 7h16l-2 5-6 6-6-6L4 7z" fill="#909090" stroke="#fadb14" stroke-width="1"/></svg>`;
   }
   return `<span class="team-stripe" style="background-color: var(--f1-red);"></span>`;
 }
 
-const singaporeFlagSvg = `<svg width="16" height="11" viewBox="0 0 30 20" style="border-radius: 1px; display: inline-block; vertical-align: middle;"><rect width="30" height="10" fill="#ed2939"/><rect y="10" width="30" height="10" fill="#ffffff"/><circle cx="6" cy="5" r="3.2" fill="#ffffff"/><circle cx="7.2" cy="5" r="3" fill="#ed2939"/></svg>`;
-
 export async function renderOverviewView() {
   const nextGp = await dataService.getNextGrandPrix();
-  const drivers = await dataService.getDrivers();
-  const constructors = await dataService.getConstructors();
-  const liveSession = await dataService.getLiveSessionState();
-  const liveFeed = await dataService.getLiveTimingFeed();
+  const driverStandings = (await dataService.getDriverStandings()) || [];
+  const constructorStandings = (await dataService.getConstructorStandings()) || [];
+  const liveFeed = (await dataService.getLiveTimingFeed()) || [];
   const recentRace = await dataService.getRecentRace();
+  const calendar = await dataService.getCalendar();
 
   // 1. DRIVER CHAMPIONSHIP ROWS (Top 5)
-  const driverRows = [
-    { pos: '01', name: 'Max Verstappen', team: 'Red Bull', pts: 312, w: 8, pod: 14, delta: '-' },
-    { pos: '02', name: 'Lando Norris', team: 'McLaren', pts: 298, w: 6, pod: 12, delta: '<span class="delta-green">▲ +1</span>' },
-    { pos: '03', name: 'Charles Leclerc', team: 'Ferrari', pts: 275, w: 5, pod: 11, delta: '<span class="delta-red">▼ -1</span>' },
-    { pos: '04', name: 'Oscar Piastri', team: 'McLaren', pts: 248, w: 4, pod: 9, delta: '-' },
-    { pos: '05', name: 'Lewis Hamilton', team: 'Mercedes', pts: 232, w: 4, pod: 10, delta: '<span class="delta-green">▲ +2</span>' },
-  ];
-
-  const driverRowsHtml = driverRows.map(d => `
-    <tr>
-      <td class="pos-cell"><span class="pos-num-text">${d.pos}</span></td>
-      <td style="font-weight: 600; color: var(--text-primary);">${d.name}</td>
-      <td>
-        <div style="display: flex; align-items: center; gap: 5px;">
-          ${getTeamIconSvg(d.team)}
-          <span class="text-secondary" style="font-size: 11px;">${d.team}</span>
-        </div>
-      </td>
-      <td class="text-right font-mono" style="font-weight: 700; color: var(--text-primary);">${d.pts}</td>
-      <td class="text-center font-mono text-muted">${d.w}</td>
-      <td class="text-center font-mono text-muted">${d.pod}</td>
-      <td class="text-center">${d.delta}</td>
-    </tr>
-  `).join('');
+  const driverRows = driverStandings.filter(Boolean).slice(0, 5);
+  const driverRowsHtml = driverRows.map(d => {
+    const driverName = d.name || `${d.firstName || ''} ${d.lastName || ''}`.trim() || 'Driver';
+    const driverTeam = d.team || d.teamName || 'Independent';
+    return `
+      <tr>
+        <td class="pos-cell"><span class="pos-num-text">${String(d.pos).padStart(2, '0')}</span></td>
+        <td>
+          <a href="#drivers/${d.id || d.driverId || ''}" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit;">
+            <span style="font-weight: 600; color: var(--text-primary);">${driverName}</span>
+          </a>
+        </td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            ${getTeamIconSvg(driverTeam)}
+            <span class="text-secondary" style="font-size: 11px;">${driverTeam}</span>
+          </div>
+        </td>
+        <td class="text-right font-mono" style="font-weight: 700; color: var(--text-primary);">${d.points ?? d.pts ?? 0}</td>
+        <td class="text-center font-mono text-muted">${d.wins ?? d.w ?? 0}</td>
+        <td class="text-center font-mono text-muted">${d.podiums ?? d.pod ?? 0}</td>
+        <td class="text-center">-</td>
+      </tr>
+    `;
+  }).join('');
 
   // 2. CONSTRUCTOR CHAMPIONSHIP ROWS (Top 5)
-  const constructorRows = [
-    { pos: '01', team: 'Red Bull', pts: 498, w: 9, pod: 18, last: '1st', delta: '-' },
-    { pos: '02', team: 'McLaren', pts: 452, w: 10, pod: 16, last: '2nd', delta: '-' },
-    { pos: '03', team: 'Ferrari', pts: 420, w: 6, pod: 14, last: '3rd', delta: '-' },
-    { pos: '04', team: 'Mercedes', pts: 356, w: 4, pod: 13, last: '5th', delta: '<span class="delta-green">▲ +1</span>' },
-    { pos: '05', team: 'Aston Martin', pts: 198, w: 1, pod: 6, last: '7th', delta: '<span class="delta-red">▼ -1</span>' },
-  ];
+  const constructorRows = constructorStandings.filter(Boolean).slice(0, 5);
+  const constructorRowsHtml = constructorRows.map(c => {
+    const cTeam = c.team || c.constructor || c.name || 'Team';
+    return `
+      <tr>
+        <td class="pos-cell"><span class="pos-num-text">${String(c.pos).padStart(2, '0')}</span></td>
+        <td>
+          <a href="#constructors" style="display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit;">
+            ${getTeamIconSvg(cTeam)}
+            <span style="font-weight: 600; color: var(--text-primary);">${cTeam}</span>
+          </a>
+        </td>
+        <td class="text-right font-mono" style="font-weight: 700; color: var(--text-primary);">${c.points ?? c.pts ?? 0}</td>
+        <td class="text-center font-mono text-muted">${c.wins ?? c.w ?? 0}</td>
+        <td class="text-center font-mono text-muted">${c.podiums ?? c.pod ?? 0}</td>
+        <td class="text-center text-muted font-mono" style="font-size: 10px;">${c.recentFinish || '1st'}</td>
+        <td class="text-center">-</td>
+      </tr>
+    `;
+  }).join('');
 
-  const constructorRowsHtml = constructorRows.map(c => `
-    <tr>
-      <td class="pos-cell"><span class="pos-num-text">${c.pos}</span></td>
-      <td>
-        <div style="display: flex; align-items: center; gap: 5px;">
-          ${getTeamIconSvg(c.team)}
-          <span style="font-weight: 600; color: var(--text-primary);">${c.team}</span>
-        </div>
-      </td>
-      <td class="text-right font-mono" style="font-weight: 700; color: var(--text-primary);">${c.pts}</td>
-      <td class="text-center font-mono text-muted">${c.w}</td>
-      <td class="text-center font-mono text-muted">${c.pod}</td>
-      <td class="text-center font-mono" style="font-size: 11px; color: var(--text-secondary);">${c.last}</td>
-      <td class="text-center">${c.delta}</td>
-    </tr>
-  `).join('');
-
-  // 3. LIVE TIMING ROWS (Top 5)
-  const timingFeed = [
-    { pos: 1, code: 'VER', team: 'Red Bull', lap: 28, time: '1:31.204', gap: '—', s1: '27.1', s1Status: 'best-personal', s2: '33.4', s2Status: 'best-personal', s3: '30.6', s3Status: 'best-personal', tyre: 'M', tyreColor: '#facc15' },
-    { pos: 2, code: 'NOR', team: 'McLaren', lap: 28, time: '1:31.482', gap: '+0.278', s1: '27.2', s1Status: 'best-sector', s2: '33.5', s2Status: 'best-personal', s3: '30.7', s3Status: 'best-sector', tyre: 'M', tyreColor: '#facc15' },
-    { pos: 3, code: 'LEC', team: 'Ferrari', lap: 28, time: '1:31.621', gap: '+0.417', s1: '27.3', s1Status: 'normal', s2: '33.6', s2Status: 'normal', s3: '30.6', s3Status: 'best-personal', tyre: 'S', tyreColor: '#f87171' },
-    { pos: 4, code: 'PIA', team: 'McLaren', lap: 28, time: '1:31.703', gap: '+0.499', s1: '27.4', s1Status: 'normal', s2: '33.6', s2Status: 'normal', s3: '30.7', s3Status: 'normal', tyre: 'M', tyreColor: '#facc15' },
-    { pos: 5, code: 'HAM', team: 'Mercedes', lap: 28, time: '1:31.921', gap: '+0.717', s1: '27.5', s1Status: 'normal', s2: '33.8', s2Status: 'normal', s3: '30.9', s3Status: 'normal', tyre: 'S', tyreColor: '#f87171' },
-  ];
+  // 3. LIVE TIMING TOP 5 ROWS
+  const timingFeed = liveFeed.slice(0, 5).map((t, idx) => ({
+    pos: t.pos || idx + 1,
+    code: t.code || 'DRV',
+    team: t.team || 'Team',
+    lap: t.lap || 62,
+    time: t.lapTime || '1:35.842',
+    gap: idx === 0 ? 'LEADER' : (t.gap || `+${(idx * 2.345).toFixed(3)}s`),
+    s1: t.s1?.time || '27.450',
+    s1Status: t.s1?.status || 'purple',
+    s2: t.s2?.time || '38.160',
+    s2Status: t.s2?.status || 'yellow',
+    s3: t.s3?.time || '29.640',
+    s3Status: t.s3?.status || 'green',
+    tyre: t.tyre?.compound || 'M',
+    tyreColor: (t.tyre?.compound === 'S') ? '#f87171' : ((t.tyre?.compound === 'H') ? '#e5e7eb' : '#facc15')
+  }));
 
   const timingRowsHtml = timingFeed.map(t => `
     <tr>
@@ -120,24 +131,37 @@ export async function renderOverviewView() {
     </tr>
   `).join('');
 
+  const sessionTitle = (nextGp.nextSession?.session_name || 'Practice 1').toUpperCase();
+  const sessionTimeDisplay = nextGp.round.sessions?.p1 || 'FRI 23 OCT · 17:30 UTC';
+
+  const heroImageMap = {
+    'austin': 'assets/austin-hero.jpg',
+    'circuit-of-the-americas': 'assets/austin-hero.jpg',
+    'singapore': 'assets/singapore-hero.jpg',
+    'marina-bay': 'assets/singapore-hero.jpg'
+  };
+  const heroBgImg = (nextGp.round && heroImageMap[nextGp.round.circuitId]) 
+    ? heroImageMap[nextGp.round.circuitId] 
+    : 'assets/austin-hero.jpg';
+
   return `
     <div class="overview-dashboard">
       
       <!-- ========================================================
-           ROW 1: NEXT GRAND PRIX HERO BANNER (SINGAPORE ANCHOR)
+           ROW 1: NEXT GRAND PRIX HERO BANNER (DYNAMIC ANCHOR)
            ======================================================== -->
-      <section class="overview-hero-card" aria-label="Next Grand Prix Anchor">
+      <section class="overview-hero-card" style="background-image: linear-gradient(90deg, rgba(12, 13, 16, 0.92) 0%, rgba(12, 13, 16, 0.74) 45%, rgba(12, 13, 16, 0.28) 75%, rgba(12, 13, 16, 0.88) 100%), url('${heroBgImg}'); background-position: center 42%; background-size: cover; background-repeat: no-repeat;" aria-label="Next Grand Prix Anchor">
         <div class="hero-left-content">
-          <div class="hero-round-label">ROUND 18 / 24</div>
-          <h1 class="hero-title-main">SINGAPORE GRAND PRIX</h1>
+          <div class="hero-round-label">ROUND ${String(nextGp.round.round).padStart(2, '0')} / ${calendar.length}</div>
+          <h1 class="hero-title-main">${nextGp.round.grandPrix.toUpperCase()}</h1>
           <div class="hero-circuit-row">
-            ${singaporeFlagSvg}
-            <span>MARINA BAY STREET CIRCUIT</span>
+            <span class="country-flag-icon" style="font-size: 14px; margin-right: 4px;">${nextGp.round.flag || '🏁'}</span>
+            <span>${nextGp.round.circuitName.toUpperCase()} · ${(nextGp.round.city || nextGp.round.country).toUpperCase()}</span>
           </div>
           <div class="hero-badges-row">
-            <span class="hero-pill-date">03 - 05 OCT 2026</span>
-            <a href="#circuits" class="hero-pill-link">
-              <span>SINGAPORE</span>
+            <span class="hero-pill-date">${nextGp.round.date}</span>
+            <a href="#circuits/${nextGp.round.circuitId}" class="hero-pill-link">
+              <span>CIRCUIT SPECIFICATION</span>
               <span>→</span>
             </a>
           </div>
@@ -145,24 +169,26 @@ export async function renderOverviewView() {
 
         <div class="hero-session-box">
           <span class="hero-session-kicker">NEXT SESSION</span>
-          <span class="hero-session-title">QUALIFYING</span>
+          <span class="hero-session-title">${sessionTitle}</span>
           
           <div class="hero-countdown-container">
             <div class="hero-countdown-digits-row">
-              <span id="header-countdown-d">01</span>
+              <span id="header-countdown-d">00</span>
               <span class="hero-countdown-colon">:</span>
-              <span id="header-countdown-m">42</span>
+              <span id="header-countdown-m">00</span>
               <span class="hero-countdown-colon">:</span>
-              <span id="header-countdown-s">18</span>
+              <span id="header-countdown-s">00</span>
             </div>
             <div class="hero-countdown-units-row">
               <span>DAYS</span>
+              <span style="opacity: 0; padding: 0 4px;" aria-hidden="true">:</span>
               <span>MINS</span>
+              <span style="opacity: 0; padding: 0 4px;" aria-hidden="true">:</span>
               <span>SECS</span>
             </div>
           </div>
 
-          <span class="hero-session-timestamp">SAT 04 OCT · 19:00 (SGT)</span>
+          <span class="hero-session-timestamp">${sessionTimeDisplay}</span>
         </div>
       </section>
 
@@ -175,7 +201,7 @@ export async function renderOverviewView() {
         <div class="panel">
           <div class="panel-header">
             <span class="panel-title">DRIVER CHAMPIONSHIP</span>
-            <span class="panel-badge">TOP 5</span>
+            <span class="panel-badge">TOP 5 · 2026 STANDINGS</span>
           </div>
           <div class="panel-body no-padding">
             <div class="table-responsive">
@@ -203,7 +229,7 @@ export async function renderOverviewView() {
         <div class="panel">
           <div class="panel-header">
             <span class="panel-title">CONSTRUCTOR CHAMPIONSHIP</span>
-            <span class="panel-badge">TOP 5</span>
+            <span class="panel-badge">TOP 5 · 2026 STANDINGS</span>
           </div>
           <div class="panel-body no-padding">
             <div class="table-responsive">
@@ -231,54 +257,38 @@ export async function renderOverviewView() {
         <div class="panel">
           <div class="panel-header">
             <span class="panel-title">CIRCUIT INFO</span>
-            <a href="#circuits" class="panel-action-link" style="text-decoration: none; font-size: 11px; color: var(--text-muted); font-weight: 600;">
+            <a href="#circuits/${nextGp.round.circuitId}" class="panel-action-link" style="text-decoration: none; font-size: 11px; color: var(--text-muted); font-weight: 600;">
               View Circuit →
             </a>
           </div>
           
-          <div class="panel-body" style="padding: var(--space-2) var(--space-3); display: flex; flex-direction: column; gap: var(--space-2);">
-            <!-- Vector track SVG with 3 sectors -->
-            <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 4px; display: flex; align-items: center; justify-content: center;">
-              <svg viewBox="0 0 380 180" style="width: 100%; height: 115px; display: block;">
-                <!-- S1: Turn 1 to 5 (Red/Coral) -->
-                <path d="M 60,135 L 42,105 L 50,75 L 80,65 L 110,72 L 135,55" fill="none" stroke="#ff5e57" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <!-- S2: Turn 6 to 14 (Electric Blue) -->
-                <path d="M 135,55 L 175,30 L 215,40 L 260,60 L 295,55 L 335,62 L 350,80 L 350,110" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <!-- S3: Turn 15 to 19 (Gold/Amber) -->
-                <path d="M 350,110 L 355,140 L 338,155 L 305,145 L 275,110 L 245,120 L 215,115 L 175,145 L 125,130 L 60,135" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                
-                <!-- Sector Labels -->
-                <text x="32" y="90" fill="#ff5e57" font-family="var(--font-mono)" font-size="11" font-weight="800">S1</text>
-                <text x="250" y="48" fill="#38bdf8" font-family="var(--font-mono)" font-size="11" font-weight="800">S2</text>
-                <text x="355" y="135" fill="#f59e0b" font-family="var(--font-mono)" font-size="11" font-weight="800">S3</text>
-              </svg>
+          <div class="panel-body" style="padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3);">
+            <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div class="technical-label" style="font-size: 9px; margin-bottom: 2px;">NEXT UPCOMING VENUE</div>
+                <div style="font-weight: 800; font-size: 13px; color: var(--text-primary); text-transform: uppercase;">${nextGp.circuit.name}</div>
+                <div class="text-muted font-mono" style="font-size: 11px;">${nextGp.round.city}, ${nextGp.round.country}</div>
+              </div>
+              <span style="font-size: 24px;">${nextGp.round.flag || '🏁'}</span>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px;">
-              <span style="font-weight: 700; font-size: 12px; color: var(--text-primary); text-transform: uppercase;">MARINA BAY STREET CIRCUIT</span>
-              <span style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-secondary);">
-                ${singaporeFlagSvg}
-                <span>SINGAPORE</span>
-              </span>
-            </div>
-          </div>
-
-          <div class="circuit-stats-quad">
-            <div class="stat-quad-item">
-              <span class="stat-quad-label">LENGTH</span>
-              <span class="stat-quad-value">5.063 km</span>
-            </div>
-            <div class="stat-quad-item">
-              <span class="stat-quad-label">CORNERS</span>
-              <span class="stat-quad-value">23</span>
-            </div>
-            <div class="stat-quad-item">
-              <span class="stat-quad-label">LAPS</span>
-              <span class="stat-quad-value">62</span>
-            </div>
-            <div class="stat-quad-item">
-              <span class="stat-quad-label">RACE DISTANCE</span>
-              <span class="stat-quad-value">314.9 km</span>
+            <div class="circuit-stats-quad">
+              <div class="stat-quad-item">
+                <span class="stat-quad-label">LENGTH</span>
+                <span class="stat-quad-value font-mono">${nextGp.circuit.lengthKm}</span>
+              </div>
+              <div class="stat-quad-item">
+                <span class="stat-quad-label">CORNERS</span>
+                <span class="stat-quad-value font-mono">${nextGp.circuit.corners}</span>
+              </div>
+              <div class="stat-quad-item">
+                <span class="stat-quad-label">LAPS</span>
+                <span class="stat-quad-value font-mono">${nextGp.circuit.laps}</span>
+              </div>
+              <div class="stat-quad-item">
+                <span class="stat-quad-label">RACE DISTANCE</span>
+                <span class="stat-quad-value font-mono">${nextGp.circuit.raceDistanceKm}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -290,260 +300,72 @@ export async function renderOverviewView() {
            ======================================================== -->
       <section class="overview-row-split" aria-label="Live Operations and Analytical Overview">
         
-        <!-- LEFT COLUMN: LIVE TIMING + RECENT RACE -->
-        <div class="overview-col-left">
-          
-          <!-- Card 1: Live Timing -->
-          <div class="panel">
-            <div class="panel-header">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="live-pulse-dot" style="margin: 0;"></span>
-                <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.06em; color: var(--text-primary);">LIVE TIMING</span>
-                <span class="badge-tag f1-red" style="padding: 1px 6px; font-size: 9px; font-weight: 800;">● LIVE</span>
-                <span class="badge-tag" style="padding: 1px 6px; font-size: 9px;">PRACTICE 3</span>
-              </div>
-              <span class="font-mono text-muted" style="font-size: 11px;">LAP 28 / 62</span>
+        <!-- COLUMN 1: LIVE TIMING FEED -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-title">SESSION ARCHIVE // SINGAPORE GRAND PRIX</span>
+              <span class="panel-badge">COMPLETED ROUND 19</span>
             </div>
-
-            <div class="panel-body no-padding">
-              <div class="table-responsive">
-                <table class="data-table" style="font-size: 11px;">
-                  <thead>
-                    <tr>
-                      <th class="text-center" style="width: 28px;">POS</th>
-                      <th>DRIVER</th>
-                      <th>TEAM</th>
-                      <th class="text-center" style="width: 32px;">LAP</th>
-                      <th>TIME</th>
-                      <th>GAP</th>
-                      <th class="text-center">S1</th>
-                      <th class="text-center">S2</th>
-                      <th class="text-center">S3</th>
-                      <th class="text-center">TYRE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${timingRowsHtml}
-                  </tbody>
-                </table>
-              </div>
+            <span class="font-mono text-muted" style="font-size: 11px;">CLASSIFICATION · 62 LAPS</span>
+          </div>
+          <div class="panel-body no-padding">
+            <div class="table-responsive">
+              <table class="data-table" style="font-size: 11px;">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="width: 28px;">POS</th>
+                    <th style="width: 45px;">DRIVER</th>
+                    <th>TEAM</th>
+                    <th class="text-center" style="width: 32px;">LAP</th>
+                    <th style="width: 65px;">TIME</th>
+                    <th style="width: 55px;">GAP</th>
+                    <th class="text-center" style="width: 48px;">S1</th>
+                    <th class="text-center" style="width: 48px;">S2</th>
+                    <th class="text-center" style="width: 48px;">S3</th>
+                    <th class="text-center" style="width: 28px;">TYRE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${timingRowsHtml}
+                </tbody>
+              </table>
             </div>
           </div>
-
-          <!-- Card 2: Recent Race (Italian Grand Prix) -->
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">RECENT RACE</span>
-              <span class="font-mono text-muted" style="font-size: 11px; text-transform: uppercase;">ITALIAN GRAND PRIX</span>
-            </div>
-
-            <div class="recent-race-card-body">
-              <div class="recent-race-columns">
-                <!-- Winner segment -->
-                <div class="winner-profile-segment">
-                  <div class="winner-avatar-frame">
-                    <svg viewBox="0 0 40 40" width="38" height="38" fill="none">
-                      <circle cx="20" cy="20" r="18" fill="#171b22" stroke="var(--border-default)"/>
-                      <path d="M10 30 C10 23, 14 19, 20 19 C26 19, 30 23, 30 30 Z" fill="#e10600"/>
-                      <circle cx="20" cy="14" r="6" fill="#e5e7eb"/>
-                      <rect x="14" y="16" width="12" height="4" rx="2" fill="#11141a"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="technical-label" style="font-size: 9px; margin-bottom: 2px;">RACE WINNER</div>
-                    <div style="display: flex; align-items: center; gap: 6px;">
-                      ${getTeamIconSvg('Red Bull')}
-                      <span style="font-weight: 800; font-size: 13px; color: var(--text-primary);">MAX VERSTAPPEN</span>
-                    </div>
-                    <div class="text-muted font-mono" style="font-size: 10px; margin-left: 20px;">RED BULL</div>
-                  </div>
-                </div>
-
-                <!-- P2 & P3 podium finishers -->
-                <div class="podium-finishers-segment">
-                  <div class="podium-finisher-row">
-                    <span class="podium-chip-num p2">2</span>
-                    ${getTeamIconSvg('McLaren')}
-                    <span style="font-weight: 600; color: var(--text-primary);">Lando Norris</span>
-                    <span class="font-mono text-muted" style="margin-left: auto;">+2.341</span>
-                  </div>
-                  <div class="podium-finisher-row">
-                    <span class="podium-chip-num p3">3</span>
-                    ${getTeamIconSvg('Ferrari')}
-                    <span style="font-weight: 600; color: var(--text-primary);">Charles Leclerc</span>
-                    <span class="font-mono text-muted" style="margin-left: auto;">+6.827</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer stat bar -->
-              <div class="recent-race-footer-bar font-mono">
-                <div>
-                  <span class="text-muted" style="font-size: 10px;">FASTEST LAP:</span>
-                  <span style="font-weight: 700; color: var(--text-primary); margin-left: 4px;">1:28.441</span>
-                  <span class="text-muted" style="font-size: 10px; margin-left: 4px;">Lando Norris</span>
-                </div>
-                <div>
-                  <span class="text-muted" style="font-size: 10px;">POINTS LEADER:</span>
-                  <span style="font-weight: 700; color: var(--text-primary); margin-left: 4px;">312 PTS</span>
-                  <span class="text-muted" style="font-size: 10px; margin-left: 4px;">Max Verstappen</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <!-- RIGHT COLUMN: WEATHER + SCHEDULE + PROGRESSION -->
-        <div class="overview-col-right">
-          
-          <!-- Card 1: Weather -->
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">WEATHER</span>
-              <span class="badge-tag status-green" style="font-size: 9px;">● LIVE</span>
-            </div>
-            <div class="weather-panel-content">
-              <div class="weather-top-metric-row">
-                <div class="weather-icon-symbol">
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-                  </svg>
+        <!-- COLUMN 2: WEATHER SENSORS -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">SESSION WEATHER SENSORS</span>
+            <span class="panel-badge">SINGAPORE GP ARCHIVE</span>
+          </div>
+          <div class="panel-body">
+            <div class="weather-metrics-grid">
+              <div class="weather-temp-block">
+                <div class="weather-icon-temp">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="weather-svg"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                  <div>
+                    <span class="weather-value font-mono">30.2°C</span>
+                    <span class="weather-label">AIR TEMP</span>
+                  </div>
                 </div>
+              </div>
+
+              <div class="weather-temp-block">
                 <div>
-                  <div class="font-mono" style="font-size: 19px; font-weight: 800; color: var(--text-primary); line-height: 1;">28°C</div>
-                  <div class="technical-label" style="font-size: 9px; margin-top: 2px;">AIR TEMP</div>
-                </div>
-                <div style="margin-left: var(--space-4);">
-                  <div class="font-mono" style="font-size: 19px; font-weight: 800; color: var(--text-primary); line-height: 1;">31°C</div>
-                  <div class="technical-label" style="font-size: 9px; margin-top: 2px;">TRACK TEMP</div>
+                  <span class="weather-value font-mono">41.5°C</span>
+                  <span class="weather-label">TRACK TEMP</span>
                 </div>
               </div>
+            </div>
 
-              <div class="weather-bottom-metric-row">
-                <div style="display: flex; align-items: center; gap: 4px;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">10%</span>
-                  <span class="text-muted" style="font-size: 9px;">RAIN PROB.</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 4px;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary);">2.1 m/s</span>
-                  <span class="text-muted" style="font-size: 9px;">WIND (NW)</span>
-                </div>
-                <div>
-                  <span style="font-weight: 700; color: var(--text-primary);">Clear</span>
-                  <span class="text-muted" style="font-size: 9px; margin-left: 2px;">CONDITIONS</span>
-                </div>
-              </div>
+            <div class="weather-details-row">
+              <span>0% RAIN PROB.</span>
+              <span>1.4 m/s WIND (SW)</span>
+              <span>77.4% HUMIDITY</span>
             </div>
           </div>
-
-          <!-- Card 2: Session Schedule -->
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">SESSION SCHEDULE</span>
-              <span class="font-mono text-muted" style="font-size: 11px;">SAT 04 OCT</span>
-            </div>
-            <div class="schedule-clean-list">
-              <div class="schedule-clean-row">
-                <span class="schedule-clean-session">P1</span>
-                <span class="font-mono text-muted" style="font-size: 11px;">12:30 - 13:30</span>
-                <span class="schedule-status-done">✓ COMPLETED</span>
-              </div>
-              <div class="schedule-clean-row">
-                <span class="schedule-clean-session">P2</span>
-                <span class="font-mono text-muted" style="font-size: 11px;">16:00 - 17:00</span>
-                <span class="schedule-status-done">✓ COMPLETED</span>
-              </div>
-              <div class="schedule-clean-row live">
-                <span class="schedule-clean-session">P3</span>
-                <span class="font-mono text-muted" style="font-size: 11px;">12:30 - 13:30</span>
-                <span class="schedule-status-live">● LIVE NOW</span>
-              </div>
-              <div class="schedule-clean-row">
-                <span class="schedule-clean-session">Qualifying</span>
-                <span class="font-mono text-muted" style="font-size: 11px;">19:00 - 20:00</span>
-                <span class="schedule-status-upcoming">UPCOMING</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3: Championship Progression -->
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-title">CHAMPIONSHIP PROGRESSION</span>
-              <span class="font-mono text-muted" style="font-size: 11px;">AFTER ROUND 17</span>
-            </div>
-            <div class="progression-split-content">
-              <!-- Progression Line Chart -->
-              <div style="height: 125px; width: 100%; position: relative;">
-                <svg viewBox="0 0 240 120" style="width: 100%; height: 100%; display: block;">
-                  <!-- Grid lines -->
-                  <line x1="25" y1="15" x2="235" y2="15" stroke="var(--border-subtle)" stroke-dasharray="2 2"/>
-                  <line x1="25" y1="42" x2="235" y2="42" stroke="var(--border-subtle)" stroke-dasharray="2 2"/>
-                  <line x1="25" y1="69" x2="235" y2="69" stroke="var(--border-subtle)" stroke-dasharray="2 2"/>
-                  <line x1="25" y1="96" x2="235" y2="96" stroke="var(--border-subtle)"/>
-
-                  <!-- Y-Axis labels -->
-                  <text x="20" y="18" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8" text-anchor="end">400</text>
-                  <text x="20" y="45" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8" text-anchor="end">300</text>
-                  <text x="20" y="72" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8" text-anchor="end">200</text>
-                  <text x="20" y="99" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8" text-anchor="end">100</text>
-                  <text x="20" y="112" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8" text-anchor="end">0</text>
-
-                  <!-- X-Axis labels -->
-                  <text x="25" y="112" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8">1</text>
-                  <text x="75" y="112" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8">8</text>
-                  <text x="125" y="112" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8">12</text>
-                  <text x="175" y="112" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8">16</text>
-                  <text x="225" y="112" fill="var(--text-muted)" font-family="var(--font-mono)" font-size="8">24</text>
-
-                  <!-- Plotted Lines -->
-                  <!-- VER (Blue) -->
-                  <path d="M 25,100 L 60,88 L 100,72 L 140,55 L 180,36 L 230,22" fill="none" stroke="#1e41ff" stroke-width="1.8" stroke-linecap="round"/>
-                  <!-- NOR (Orange) -->
-                  <path d="M 25,102 L 60,92 L 100,78 L 140,62 L 180,44 L 230,26" fill="none" stroke="#ff8000" stroke-width="1.8" stroke-linecap="round"/>
-                  <!-- LEC (Red) -->
-                  <path d="M 25,101 L 60,90 L 100,82 L 140,70 L 180,54 L 230,34" fill="none" stroke="#e10600" stroke-width="1.8" stroke-linecap="round"/>
-                  <!-- PIA (Orange Dashed) -->
-                  <path d="M 25,103 L 60,95 L 100,86 L 140,76 L 180,62 L 230,42" fill="none" stroke="#ff8000" stroke-width="1.6" stroke-dasharray="3 2" stroke-linecap="round"/>
-                  <!-- HAM (Teal) -->
-                  <path d="M 25,103 L 60,96 L 100,88 L 140,80 L 180,68 L 230,48" fill="none" stroke="#00d2be" stroke-width="1.6" stroke-linecap="round"/>
-                </svg>
-              </div>
-
-              <!-- Legend / Scores -->
-              <div class="progression-scores-list">
-                <div class="progression-driver-score">
-                  <span class="prog-color-box" style="background: #1e41ff;"></span>
-                  <span>VER</span>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary); margin-left: auto;">312</span>
-                </div>
-                <div class="progression-driver-score">
-                  <span class="prog-color-box" style="background: #ff8000;"></span>
-                  <span>NOR</span>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary); margin-left: auto;">298</span>
-                </div>
-                <div class="progression-driver-score">
-                  <span class="prog-color-box" style="background: #e10600;"></span>
-                  <span>LEC</span>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary); margin-left: auto;">275</span>
-                </div>
-                <div class="progression-driver-score">
-                  <span class="prog-color-box dashed" style="background: #ff8000;"></span>
-                  <span>PIA</span>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary); margin-left: auto;">248</span>
-                </div>
-                <div class="progression-driver-score">
-                  <span class="prog-color-box" style="background: #00d2be;"></span>
-                  <span>HAM</span>
-                  <span class="font-mono" style="font-weight: 700; color: var(--text-primary); margin-left: auto;">232</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
       </section>

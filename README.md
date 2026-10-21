@@ -175,4 +175,10 @@ The application is deployed to **Vercel** via GitHub integration:
 
 - **Design & Architecture:** Designed and built by **Prashant Ratnala** as an independent motorsport analytics platform.
 - **Telemetry & Data Providers:** Data retrieved from [OpenF1](https://openf1.org/) and the [Jolpica F1 Project](https://github.com/jolpica/jolpica-f1).
+- **Visual Assets & Provenance:**
+  - `assets/austin-hero.jpg`: Authentic 2021 United States Grand Prix action photography at Circuit of the Americas, Austin (Sony ILCE-1, 200mm). Photo by RSY Photography (`rsyphotography` on Flickr / Wikimedia Commons `File:2021 United States Grand Prix 23.jpg`), licensed under [Creative Commons Attribution 2.0 Generic (CC BY 2.0)](https://creativecommons.org/licenses/by/2.0/).
+  - `assets/singapore-hero.jpg`: Authentic nocturnal aerial photography of the Marina Bay Street Circuit under lights during the Singapore Grand Prix.
+  - Driver headshots: Authoritative Formula 1 media assets with fallback monospaced livery tokens.
+  - Team emblems: Custom technical SVG vectors matching official constructor identities.
 - **Trademark Disclaimer:** Formula 1, F1, FORMULA ONE, FIA, and related logos are trademarks of Formula One Licensing B.V. and the Fédération Internationale de l'Automobile. This project is independent and is neither affiliated with, endorsed by, nor sponsored by the Formula One Group or the FIA.
+

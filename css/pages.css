@@ -19,8 +19,9 @@
   position: relative;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
-  background: linear-gradient(90deg, rgba(12, 13, 16, 0.88) 0%, rgba(12, 13, 16, 0.70) 45%, rgba(12, 13, 16, 0.32) 75%, rgba(12, 13, 16, 0.84) 100%), 
-              url('../assets/singapore-hero.jpg') center 35% / cover no-repeat;
+  background-color: var(--surface-panel);
+  background: linear-gradient(90deg, rgba(12, 13, 16, 0.92) 0%, rgba(12, 13, 16, 0.74) 45%, rgba(12, 13, 16, 0.28) 75%, rgba(12, 13, 16, 0.88) 100%), 
+              url('../assets/austin-hero.jpg') center 42% / cover no-repeat;
   padding: var(--space-5) var(--space-6);
   display: flex;
   justify-content: space-between;

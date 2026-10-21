@@ -4663,13 +4663,23 @@
     const sessionTitle = (nextGp.nextSession?.session_name || 'Practice 1').toUpperCase();
     const sessionTimeDisplay = nextGp.round.sessions?.p1 || 'FRI 23 OCT · 17:30 UTC';
 
+    const heroImageMap = {
+      'austin': 'assets/austin-hero.jpg',
+      'circuit-of-the-americas': 'assets/austin-hero.jpg',
+      'singapore': 'assets/singapore-hero.jpg',
+      'marina-bay': 'assets/singapore-hero.jpg'
+    };
+    const heroBgImg = (nextGp.round && heroImageMap[nextGp.round.circuitId]) 
+      ? heroImageMap[nextGp.round.circuitId] 
+      : 'assets/austin-hero.jpg';
+
     return `
       <div class="overview-dashboard">
         
         <!-- ========================================================
              ROW 1: NEXT GRAND PRIX HERO BANNER (DYNAMIC ANCHOR)
              ======================================================== -->
-        <section class="overview-hero-card" style="background: linear-gradient(135deg, rgba(20, 23, 29, 0.98) 0%, rgba(15, 17, 21, 0.95) 100%);" aria-label="Next Grand Prix Anchor">
+        <section class="overview-hero-card" style="background-image: linear-gradient(90deg, rgba(12, 13, 16, 0.92) 0%, rgba(12, 13, 16, 0.74) 45%, rgba(12, 13, 16, 0.28) 75%, rgba(12, 13, 16, 0.88) 100%), url('${heroBgImg}'); background-position: center 42%; background-size: cover; background-repeat: no-repeat;" aria-label="Next Grand Prix Anchor">
           <div class="hero-left-content">
             <div class="hero-round-label">ROUND ${String(nextGp.round.round).padStart(2, '0')} / ${calendar.length}</div>
             <h1 class="hero-title-main">${nextGp.round.grandPrix.toUpperCase()}</h1>
@@ -6369,7 +6379,7 @@
 
         case 'drivers':
           titleText = 'CHAMPIONSHIP // DRIVER ANALYTICS';
-          viewHtml = await renderDriversView(param || 'norris');
+          viewHtml = await renderDriversView(param || 'ant');
           this.viewportEl.innerHTML = viewHtml;
           bindDriversEvents(driverId => {
             window.location.hash = `drivers/${driverId}`;
